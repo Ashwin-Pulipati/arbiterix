@@ -30,8 +30,8 @@
   --max-w-7xl: var(--fluid-w-7xl);
 
   --font-sans: var(--font-nunitoSans); /* Body */ 
-  --font-mono: var(--font-nunito); /* Subheadings */ -
-  -font-display: var(--font-corben); /* Main Headings */
+  --font-mono: var(--font-nunito); /* Subheadings */ 
+  --font-display: var(--font-corben); /* Main Headings */
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

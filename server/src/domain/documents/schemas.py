@@ -14,5 +14,8 @@ class DocumentOut(BaseModel):
     id: int
     title: str
     content: str | None
+    owner_username: str
+    status: str
+    delete_requested: bool = False
     created_at: datetime
     updated_at: datetime
