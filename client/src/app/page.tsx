@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useAsync } from "react-use";
 import { Shell } from "@/components/layout/shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +9,7 @@ import { api } from "@/lib/api";
 import { useUser } from "@/components/providers/user-provider";
 import { Document } from "@/types";
 
-function StatCard({ title, value, icon: Icon, description }: { title: string, value: string | number, icon: any, description: string }) {
+function StatCard({ title, value, icon: Icon, description }: { title: string, value: string | number, icon: React.ElementType, description: string }) {
   return (
     <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-primary/50">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

@@ -50,7 +50,7 @@ export function useDocumentsController(user: ApiUserHeaders) {
     if (!q) return docs;
     return docs.filter(
       (d) =>
-        d.title.toLowerCase().includes(q) || d.content.toLowerCase().includes(q)
+        d.title.toLowerCase().includes(q) || (d.content || "").toLowerCase().includes(q)
     );
   }, [documents, state.debounced]);
 
@@ -108,6 +108,19 @@ export function useDocumentsController(user: ApiUserHeaders) {
     [user, refresh]
   );
 
+  const [undoRequestDeleteState, undoRequestDeleteDoc] = useAsyncFn(
+    async (id: number) => {
+      try {
+        await api.documents.undoRequestDelete(id, user);
+        return refresh();
+      } catch (e) {
+        if (e instanceof ApiError) throw e;
+        throw new Error("Failed to undo deletion request");
+      }
+    },
+    [user, refresh]
+  );
+
   return useMemo(
     () => ({
       state,
@@ -123,12 +136,14 @@ export function useDocumentsController(user: ApiUserHeaders) {
         updateDoc,
         deleteDoc,
         requestDeleteDoc,
+        undoRequestDeleteDoc,
       },
       ops: {
         creating: createState.loading,
         updating: updateState.loading,
         deleting: deleteState.loading,
         requestingDelete: requestDeleteState.loading,
+        undoingRequestDelete: undoRequestDeleteState.loading,
       },
     }),
     [
@@ -143,10 +158,12 @@ export function useDocumentsController(user: ApiUserHeaders) {
       updateDoc,
       deleteDoc,
       requestDeleteDoc,
+      undoRequestDeleteDoc,
       createState.loading,
       updateState.loading,
       deleteState.loading,
       requestDeleteState.loading,
+      undoRequestDeleteState.loading,
       setState,
     ]
   );

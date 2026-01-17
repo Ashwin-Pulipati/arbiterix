@@ -15,10 +15,11 @@ export function DocumentsPage() {
 
   const { user } = useUser();
   const ctrl = useDocumentsController(user);
+  const { refresh } = ctrl.actions;
 
   useEffect(() => {
-    ctrl.actions.refresh();
-  }, [ctrl.actions.refresh]);
+    refresh();
+  }, [refresh]);
 
   const dialog = ctrl.state.dialog;
 
@@ -55,7 +56,23 @@ export function DocumentsPage() {
             );
           }
         }}
-        disableActions={ctrl.ops.deleting || ctrl.ops.requestingDelete}
+        onUndoRequestDelete={async (id) => {
+          try {
+            await ctrl.actions.undoRequestDeleteDoc(id);
+            toast.success("Deletion request undone");
+          } catch (e) {
+            toast.error(
+              e instanceof Error
+                ? e.message
+                : "Failed to undo deletion request"
+            );
+          }
+        }}
+        disableActions={
+          ctrl.ops.deleting ||
+          ctrl.ops.requestingDelete ||
+          ctrl.ops.undoingRequestDelete
+        }
       />
 
       <DocumentDialog
