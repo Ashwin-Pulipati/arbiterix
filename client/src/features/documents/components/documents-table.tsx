@@ -4,7 +4,7 @@ import type { Document, User } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { FileText, Pencil, ShieldAlert, Trash2 } from "lucide-react";
+import { FileText, Pencil, ShieldAlert, ShieldCheck, Trash2 } from "lucide-react";
 
 const formatDate = (dateString?: string) => {
   if (!dateString) return "—";
@@ -28,6 +28,7 @@ export function DocumentsTable({
   onEdit,
   onDelete,
   onRequestDelete,
+  onUndoRequestDelete,
   disableActions,
 }: {
   user: User;
@@ -36,6 +37,7 @@ export function DocumentsTable({
   onEdit: (d: Document) => void;
   onDelete: (id: number) => void;
   onRequestDelete: (id: number) => void;
+  onUndoRequestDelete: (id: number) => void;
   disableActions: boolean;
 }) {
   return (
@@ -110,16 +112,29 @@ export function DocumentsTable({
                     </Button>
 
                     {user.role === "admin" ? (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => onDelete(doc.id)}
-                        disabled={disableActions}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive hover:bg-destructive/10 focus-ring"
-                        aria-label={`Delete ${doc.title}`}
-                      >
-                        <Trash2 className="h-4 w-4" aria-hidden="true" />
-                      </Button>
+                      doc.delete_requested ? (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => onUndoRequestDelete(doc.id)}
+                          disabled={disableActions}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-green-500 hover:text-green-600 hover:bg-green-500/10 focus-ring"
+                          aria-label={`Undo deletion request for ${doc.title}`}
+                        >
+                          <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => onDelete(doc.id)}
+                          disabled={disableActions}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive hover:bg-destructive/10 focus-ring"
+                          aria-label={`Delete ${doc.title}`}
+                        >
+                          <Trash2 className="h-4 w-4" aria-hidden="true" />
+                        </Button>
+                      )
                     ) : (
                       !doc.delete_requested && (
                         <Button

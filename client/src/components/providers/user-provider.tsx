@@ -21,17 +21,16 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [storedUser, setStoredUser] = useLocalStorage<User>("arbiter_user", MOCK_USERS[0]);
-  const [user, setUserState] = useState<User>(MOCK_USERS[0]);
+  const [mounted, setMounted] = useState(false);
 
-  // Sync with local storage on mount
   useEffect(() => {
-    if (storedUser) {
-      setUserState(storedUser);
-    }
-  }, [storedUser]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  const user = (mounted && storedUser) ? storedUser : MOCK_USERS[0];
 
   const setUser = (newUser: User) => {
-    setUserState(newUser);
     setStoredUser(newUser);
   };
 

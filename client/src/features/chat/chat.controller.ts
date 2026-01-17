@@ -72,7 +72,7 @@ export function useChatController({ user }: UseChatControllerArgs) {
       const msgs = await api.chat.getThreadMessages(tid, user);
       const mapped: ChatMessage[] = msgs.map((m) => ({
         id: String(m.id),
-        role: m.role as any,
+        role: m.role === "system" ? "assistant" : (m.role as "user" | "assistant"),
         content: m.content,
         agent: "System",
       }));
@@ -123,7 +123,7 @@ export function useChatController({ user }: UseChatControllerArgs) {
 
     try {
       res = await api.chat.send(payload, user);
-    } catch (e) {
+    } catch {
       const errMsg: ChatMessage = {
         id: `${Date.now()}-e`,
         role: "assistant",

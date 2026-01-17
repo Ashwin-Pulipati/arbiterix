@@ -42,7 +42,7 @@ export function DocumentDialog({
   useEffect(() => {
     if (!open) return;
     if (mode === "edit" && doc) {
-      form.reset({ title: doc.title, content: doc.content });
+      form.reset({ title: doc.title, content: doc.content || "" });
     } else {
       form.reset({ title: "", content: "" });
     }

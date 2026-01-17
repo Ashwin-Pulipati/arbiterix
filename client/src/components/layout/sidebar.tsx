@@ -19,7 +19,6 @@ import {
   SidebarGroupAction,
   SidebarGroupLabel,
   SidebarRail,
-  useSidebar,
 } from "@/components/ui/sidebar"
 import {
   DropdownMenu,
@@ -62,7 +61,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return api.chat.listThreads(user)
   }, [user])
 
-  const [deleteState, deleteThread] = useAsyncFn(async (id: number) => {
+  const [, deleteThread] = useAsyncFn(async (id: number) => {
     await api.chat.deleteThread(id, user)
     fetchHistory()
   }, [user, fetchHistory])

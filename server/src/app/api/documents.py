@@ -189,3 +189,24 @@ def request_delete_document(
         raise HttpError(404, "Document not found")
     except Exception as e:
         raise HttpError(500, str(e))
+
+@router.post("/{document_id}/undo-request-delete", response=DocumentOut)
+def undo_request_delete_document(
+    request,
+    document_id: int,
+    x_user_id: int = Header(..., alias="X-User-Id"),
+    x_tenant: str | None = Header(None, alias="X-Tenant"),
+    x_user_role: str = Header("user", alias="X-User-Role"),
+    x_user_name: str = Header("user", alias="X-User-Name"),
+):
+    try:
+        if x_user_role != "admin":
+            raise HttpError(403, "Forbidden")
+        identity, _ = _identity_from_headers(x_user_id, x_tenant, x_user_role, x_user_name)
+        return _svc.undo_request_delete(identity=identity, document_id=document_id)
+    except PermissionError:
+        raise HttpError(403, "Forbidden")
+    except ObjectDoesNotExist:
+        raise HttpError(404, "Document not found")
+    except Exception as e:
+        raise HttpError(500, str(e))
