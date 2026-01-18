@@ -15,7 +15,7 @@ class ChatThread(models.Model):
 
 class ChatMessage(models.Model):
     thread = models.ForeignKey(ChatThread, on_delete=models.CASCADE, related_name="messages")
-    role = models.CharField(max_length=50)  # user, assistant, system
+    role = models.CharField(max_length=50)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

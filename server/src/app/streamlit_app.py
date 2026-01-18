@@ -4,10 +4,8 @@ import sys
 import warnings
 from pathlib import Path
 
-# Suppress the "async_to_sync was passed a non-async-marked callable" warning
 warnings.filterwarnings("ignore", message=".*async_to_sync was passed a non-async-marked callable.*")
 
-# Add project root to sys.path to allow imports from 'app', 'ai', 'config', etc.
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import uuid
@@ -48,12 +46,10 @@ def ensure_user(username: str):
     return user
 
 def ensure_permit_once(user_id: int, email: str, first_name: str, role: str = "user") -> None:
-    # 1. Bootstrap global schema/resources (run once per session)
     if not st.session_state.get("permit_bootstrapped_v4"):
         PermitBootstrapper().bootstrap()
         st.session_state["permit_bootstrapped_v4"] = True
-
-    # 2. Sync the specific user (run once per user per session)
+    
     user_sync_key = f"permit_synced_{user_id}"
     if not st.session_state.get(user_sync_key):
         auth.sync_user(user_key=str(user_id), email=email, first_name=first_name)
@@ -79,8 +75,7 @@ with st.sidebar:
     st.divider()
     username = st.text_input("Username", value="demo")
     user = ensure_user(username)
-    
-    # Determine role based on username
+   
     if username.lower() in ["admin", "ashwin", "ashwi"]:
         role = "admin"
     else:

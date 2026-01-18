@@ -31,8 +31,7 @@ def _identity_from_headers(
 ) -> tuple[Identity, int]:
     tenant_key = (tenant or settings.PERMIT_TENANT_KEY or "default").strip() or "default"
     
-    # Ensure user exists in Django DB (for FK constraints)
-    user, _ = User.objects.get_or_create(
+    _, _ = User.objects.get_or_create(
         id=user_id,
         defaults={
             "username": username,
@@ -40,15 +39,12 @@ def _identity_from_headers(
             "first_name": username
         }
     )
-    
-    # Simple in-memory cache to avoid excessive API calls to Permit
+ 
     sync_key = f"{user_id}:{role}:{tenant_key}"
     if sync_key not in _synced_users:
-        # Sync user to Permit
         email = f"{username}@local.dev"
         _auth.sync_user(user_key=str(user_id), email=email, first_name=username)
         
-        # Assign role
         if role == "admin":
             _auth.assign_admin(user_key=str(user_id))
         else:

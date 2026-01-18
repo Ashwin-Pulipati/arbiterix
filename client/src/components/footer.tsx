@@ -1,11 +1,6 @@
 import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (
@@ -20,37 +15,19 @@ const Footer = () => {
         &copy; {new Date().getFullYear()} Arbiter. All rights reserved.
       </span>
 
-      <TooltipProvider delayDuration={150}>
-        <div className="flex items-center gap-4 ">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="https://github.com/Ashwin-Pulipati/arbiter"
-                className="bg-primary text-background rounded-full p-2 hover:bg-primary/90 transition-colors"
-              >
-                <Github size={20} />
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>GitHub Repository</p>
-            </TooltipContent>
-          </Tooltip>
+      <div className="flex items-center gap-4 ">
+        <Button asChild className="rounded-full">
+          <Link href="https://github.com/Ashwin-Pulipati/arbiter">
+            <Github className="mr-2 h-4 w-4" /> Github
+          </Link>
+        </Button>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="https://www.linkedin.com/in/ashwinpulipati/"
-                className="bg-primary text-background rounded-full p-2 hover:bg-primary/90 transition-colors"
-              >
-                <Linkedin size={20} />
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Ashwins LinkedIn</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
-      </TooltipProvider>
+        <Button asChild className="rounded-full">
+          <Link href="https://www.linkedin.com/in/ashwinpulipati/">
+            <Linkedin className="mr-2 h-4 w-4" /> LinkedIn
+          </Link>
+        </Button>
+      </div>
     </footer>
   );
 };

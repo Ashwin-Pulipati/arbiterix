@@ -58,8 +58,7 @@ export function useChatController({ user }: UseChatControllerArgs) {
   const [agent, setAgent] = React.useState<ChatAgent>("Supervisor");
   const [messages, setMessages] = React.useState<ChatMessage[]>([]);
   const [threadId, setThreadId] = React.useState<string | undefined>(queryThreadId);
-
-  // Sync state with URL param
+  
   React.useEffect(() => {
     setThreadId(queryThreadId);
     if (!queryThreadId) {
@@ -81,8 +80,7 @@ export function useChatController({ user }: UseChatControllerArgs) {
       console.error("Failed to load thread", e);
     }
   }, [user]);
-
-  // Load messages when threadId changes
+  
   React.useEffect(() => {
     if (threadId) {
       loadThread(threadId);
@@ -136,7 +134,6 @@ export function useChatController({ user }: UseChatControllerArgs) {
 
     if (!threadId) {
       setThreadId(res.thread_id);
-      // Update URL without reload
       router.push(`${pathname}?thread=${res.thread_id}`);
     }
 
@@ -148,7 +145,7 @@ export function useChatController({ user }: UseChatControllerArgs) {
     };
 
     setMessages((prev) => [...prev, botMsg]);
-  }, [agent, input, pathname, router, user.tenant, threadId, user.id]); // userId from user.id
+  }, [agent, input, pathname, router, user.tenant, threadId, user.id]);
 
   const onSend = React.useCallback(async () => {
     if (!online) return;

@@ -11,7 +11,6 @@ class Authorizer:
 
     def assign_admin(self, user_key: str) -> None:
         async def _assign():
-            # Ensure mutual exclusivity: remove 'user' role if present
             try:
                 await permit_client.api.users.unassign_role(
                     {
@@ -34,7 +33,6 @@ class Authorizer:
 
     def assign_user(self, user_key: str) -> None:
         async def _assign():
-            # Ensure mutual exclusivity: remove 'admin' role if present
             try:
                 await permit_client.api.users.unassign_role(
                     {
@@ -62,5 +60,4 @@ class Authorizer:
         try:
             return bool(async_to_sync(_check)())
         except Exception:
-            # Fail closed on connection errors or other issues
             return False

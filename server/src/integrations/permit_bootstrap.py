@@ -67,7 +67,6 @@ class PermitBootstrapper:
 
     def _ensure_policy_user_document_access(self) -> None:
         try:
-            # Assign 'create' and 'read' permissions in a single call
             async_to_sync(permit_client.api.roles.assign_permissions)(
                 role_key=permit_config.user_role_key,
                 permissions=["document:create", "document:read"]

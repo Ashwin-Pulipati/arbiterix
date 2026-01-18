@@ -22,29 +22,28 @@ def _ctx(config: RunnableConfig) -> tuple[Identity, int]:
 @tool
 def list_documents(limit: int = 5, config: RunnableConfig = {}):
     """List recent documents for the current user."""
-    identity, owner_id = _ctx(config)
+    _, owner_id = _ctx(config)
     docs = _repo.list_recent(owner_id=owner_id, limit=limit)
     return [{"id": d.id, "title": d.title} for d in docs]
 
 @tool
 def create_document(title: str, content: str | None = None, config: RunnableConfig = {}):
     """Create a new document for the current user."""
-    identity, owner_id = _ctx(config)
-    # Use repo directly to bypass threading/auth issues in tools
+    _, owner_id = _ctx(config)
     d = _repo.create(owner_id=owner_id, title=title, content=content)
     return {"id": d.id, "title": d.title, "content": d.content, "status": d.status}
 
 @tool
 def get_document(document_id: int, config: RunnableConfig = {}):
     """Retrieve a specific document by its ID."""
-    identity, owner_id = _ctx(config)
+    _, owner_id = _ctx(config)
     d = _repo.get(owner_id=owner_id, document_id=document_id)
     return {"id": d.id, "title": d.title, "content": d.content, "status": d.status}
 
 @tool
 def delete_document(document_id: int, config: RunnableConfig = {}):
     """Delete a specific document by its ID."""
-    identity, owner_id = _ctx(config)
+    _, owner_id = _ctx(config)
     _repo.soft_delete(owner_id=owner_id, document_id=document_id)
     return {"message": "success"}
 

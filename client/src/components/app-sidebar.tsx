@@ -1,46 +1,46 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard,
-  MessageSquare,
   FileText,
   Film,
-  MoreHorizontal,
-  Trash2,
-  Plus,
   History,
+  LayoutDashboard,
+  MessageSquare,
+  MoreHorizontal,
+  Plus,
+  Trash2,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import * as React from "react";
 import { useAsyncFn, useInterval, useMedia } from "react-use";
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuAction,
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupLabel,
-  SidebarRail,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { useUser } from "@/components/providers/user-provider";
+import ThemeToggle from "@/components/theme-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ThemeToggle from "@/components/theme-toggle";
-import { UserSelector } from "../user-selector";
-import { useUser } from "@/components/providers/user-provider";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { UserSelector } from "./user-selector";
 
 const routes = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/" },
@@ -83,11 +83,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        {isMdUp ? (
-          <SidebarTrigger className="ml-auto" />
-        ) : (
-          <UserSelector />
-        )}
+        {isMdUp ? <SidebarTrigger className="ml-auto" /> : <UserSelector />}
       </SidebarHeader>
 
       <SidebarContent>
@@ -103,13 +99,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     asChild
                     isActive={active}
                     tooltip={route.label}
-                    className={cn("rounded-2xl px-3", active && "shadow-sm")}
+                    className="rounded-2xl px-3"
                   >
                     <Link href={route.href}>
                       <Icon
                         className={cn(
                           "h-4 w-4",
-                          active ? "text-primary" : "text-muted-foreground",
+                          active ? "" : ""
                         )}
                       />
                       <span>{route.label}</span>
@@ -128,8 +124,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               Recents
             </SidebarGroupLabel>
 
-            <SidebarGroupAction title="New Chat" asChild>
-              <Link href="/chat" className="focus-ring rounded-md">
+            <SidebarGroupAction title="New Chat" asChild className="hover:bg-accent">
+              <Link
+                href="/chat"
+                className="focus-ring rounded-full"
+              >
                 <Plus />
                 <span className="sr-only">New Chat</span>
               </Link>
@@ -141,7 +140,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenuButton
                     asChild
                     tooltip={item.title}
-                    className="rounded-2xl px-3"
+                    className="rounded-2xl px-3 hover:bg-accent hover:text-accent-foreground"
                   >
                     <Link href={`/chat?thread=${item.uuid}`}>
                       <span className="truncate">{item.title}</span>

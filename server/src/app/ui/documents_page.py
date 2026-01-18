@@ -1,4 +1,3 @@
-# src/app/ui/documents_page.py
 from __future__ import annotations
 
 import streamlit as st

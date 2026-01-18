@@ -31,7 +31,6 @@ _svc = ChatService(repo=_repo, auth=_auth)
 User = get_user_model()
 _synced_users = set()
 
-# Initialize agents
 document_agent = agents.get_document_agent(checkpointer=CHECKPOINTER)
 movie_agent = agents.get_movie_discovery_agent(checkpointer=CHECKPOINTER)
 supervisor = get_supervisor(checkpointer=CHECKPOINTER)
@@ -64,8 +63,6 @@ def _identity_from_headers(
                 _auth.assign_user(user_key=str(user_id))
         except Exception as e:
             print(f"Auth Sync Error: {e}")
-            # Continue even if sync fails, assuming local DB is enough for basic functionality
-            pass
         _synced_users.add(sync_key)
 
     return Identity(user_key=str(user_id), tenant_key=tenant_key), int(user_id)
@@ -115,7 +112,7 @@ def list_threads(
 @router.get("/threads/{thread_id}/messages", response=list[ChatMessageOut])
 def get_thread_messages(
     request,
-    thread_id: str, # UUID string from URL
+    thread_id: str,
     x_user_id: int = Header(..., alias="X-User-Id"),
     x_tenant: str | None = Header(None, alias="X-Tenant"),
     x_user_role: str = Header("user", alias="X-User-Role"),
@@ -141,7 +138,6 @@ def delete_thread(
 ):
     try:
         identity, owner_id = _identity_from_headers(x_user_id, x_tenant, x_user_role, x_user_name)
-        # Note: frontend sends integer ID of the thread model, not the UUID string
         _svc.delete_thread(identity=identity, owner_id=owner_id, thread_id=thread_id)
         return {"message": "success"}
     except PermissionError:
@@ -160,42 +156,29 @@ def chat(
     x_user_name: str = Header("user", alias="X-User-Name"),
 ):
     try:
-        # Ensure user exists and is authorized
-        identity, owner_id = _identity_from_headers(x_user_id, x_tenant, x_user_role, x_user_name)
+        _, owner_id = _identity_from_headers(x_user_id, x_tenant, x_user_role, x_user_name)
 
         thread_id = payload.thread_id or str(uuid.uuid4())
         tenant = payload.tenant or settings.PERMIT_TENANT_KEY or "default"
-        
-        # 1. DB Persistence
-        # Check if thread exists in DB
+       
         db_thread = _repo.get_thread_by_uuid(owner_id=owner_id, uuid=thread_id)
         if not db_thread:
-            # Create new thread
-            # Use first message as title
             title = payload.message[:30] + "..." if len(payload.message) > 30 else payload.message
             db_thread = _repo.create_thread(owner_id=owner_id, title=title, uuid=thread_id)
         else:
-            # Update title if it's "New Chat" or generic? 
-            # For now, just touch updated_at which happens automatically on save
             db_thread.save()
-
-        # Save User Message
+        
         _repo.add_message(thread_id=db_thread.id, role="user", content=payload.message)
-
-        # 2. Invoke AI
+        
         if payload.agent == "Documents":
             agent = document_agent
         elif payload.agent == "Movies":
             agent = movie_agent
         else:
             agent = supervisor
-            
-        # Use owner_id (int) as user_id for agent config if agent expects int, 
-        # OR keep payload.user_id if agent logic relies on that specific ID being consistent with other tools.
-        # Usually they should be the same.
+       
         response_text = _invoke_agent(agent, owner_id, payload.message, thread_id, tenant)
         
-        # 3. Save AI Response
         _repo.add_message(thread_id=db_thread.id, role="assistant", content=response_text)
         
         return ChatResponse(response=response_text, thread_id=thread_id)

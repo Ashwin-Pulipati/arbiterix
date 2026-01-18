@@ -1,4 +1,3 @@
-# src/app/ui/layout.py
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -39,6 +38,6 @@ def render_layout(*, app_title: str = "AgenticAI") -> AppContext:
 
         st.divider()
         st.subheader("Navigation")
-        page: PageKey = st.radio("Go to", options=["Documents", "Movies", "Chat"], index=0, horizontal=True)  # type: ignore[assignment]
+        page: PageKey = st.radio("Go to", options=["Documents", "Movies", "Chat"], index=0, horizontal=True)  
 
     return AppContext(user_key=user_key, username=username, tenant=tenant, page=page)

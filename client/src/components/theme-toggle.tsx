@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSidebar } from "@/components/ui/sidebar";
 import { SidebarMenuButton } from "./ui/sidebar";
+import { cn } from "@/lib/utils";
 
 const THEME_OPTIONS = [
   { id: "light", label: "Light", icon: Sun },
@@ -57,7 +58,11 @@ const ThemeToggleButton = ({
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button {...commonProps} variant={isActive ? "default" : "ghost"}>
+        <Button
+          {...commonProps}
+          variant={isActive ? "default" : "ghost"}
+          className={cn(commonProps.className)}
+        >
           <Icon size={16} aria-hidden />
         </Button>
       </TooltipTrigger>
@@ -111,21 +116,25 @@ export default function ThemeToggle() {
     setTheme(THEME_OPTIONS[nextIndex].id);
   };
 
-  if (isCollapsed) {
+  if (isCollapsed && !isMobile) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <SidebarMenuButton
             tooltip="Change Theme"
-            className="rounded-2xl px-3"
+            className="rounded-2xl px-3 hover:bg-accent"
           >
             <Palette className="h-4 w-4" />
           </SidebarMenuButton>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {THEME_OPTIONS.map(({ id, label, icon: Icon }) => (
-            <DropdownMenuItem key={id} onClick={() => setTheme(id)}>
-              <Icon className="mr-2 h-4 w-4" />
+            <DropdownMenuItem
+              key={id}
+              onClick={() => setTheme(id)}
+              className="group"
+            >
+              <Icon className="mr-2 h-4 w-4 text-muted-foreground group-hover:text-foreground group-focus:text-background" />
               <span>{label}</span>
             </DropdownMenuItem>
           ))}

@@ -29,7 +29,6 @@ class Document(models.Model):
     def status(self) -> str:
         if self.delete_requested:
             return "delete_requested"
-        # If updated_at is more than 1 second after created_at, consider it updated
         if self.updated_at and self.created_at and (self.updated_at - self.created_at) > timedelta(seconds=1):
             return "updated"
         return "created"

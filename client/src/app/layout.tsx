@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Corben, Nunito, Nunito_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { UserProvider } from "@/components/providers/user-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider as NextJSThemeProvider } from "next-themes";
 
 const corben = Corben({
   variable: "--font-corben",
@@ -51,7 +51,7 @@ export default function RootLayout({
           Skip to content
         </a>
 
-        <ThemeProvider
+        <NextJSThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
@@ -63,7 +63,7 @@ export default function RootLayout({
               <Toaster richColors closeButton position="top-right" />
             </TooltipProvider>
           </UserProvider>
-        </ThemeProvider>
+        </NextJSThemeProvider>
       </body>
     </html>
   );

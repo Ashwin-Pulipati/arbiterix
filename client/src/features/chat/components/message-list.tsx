@@ -12,7 +12,7 @@ export type MessageListProps = {
   endRef: React.RefObject<HTMLDivElement | null>;
 };
 
-function AgentIcon({ agent }: { agent: ChatMessage["agent"] }) {
+function AgentIcon({ agent }: { readonly agent: ChatMessage["agent"] }) {
   if (agent === "Movies")
     return <Film className="h-3 w-3" aria-hidden="true" />;
   if (agent === "Documents")
@@ -42,7 +42,7 @@ export function MessageList({ messages, loading, endRef }: MessageListProps) {
               className={cn(
                 "h-8 w-8 ring-1 ring-border/60",
                 isUser
-                  ? "bg-secondary text-secondary-foreground"
+                  ? "bg-accent text-accent-foreground"
                   : "bg-primary/10 text-primary",
               )}
             >
@@ -53,7 +53,7 @@ export function MessageList({ messages, loading, endRef }: MessageListProps) {
               )}
               <AvatarFallback>
                 {isUser ? (
-                  <UserIcon className="h-4 w-4" aria-hidden="true" />
+                  <UserIcon className="h-4 w-4 text-primary" aria-hidden="true" />
                 ) : (
                   <Bot className="h-4 w-4" aria-hidden="true" />
                 )}
@@ -68,10 +68,10 @@ export function MessageList({ messages, loading, endRef }: MessageListProps) {
             >
               <div
                 className={cn(
-                  "px-4 py-2.5 rounded-3xl text-sm shadow-sm whitespace-pre-wrap break-words",
+                  "px-4 py-2.5 rounded-3xl text-sm shadow-sm whitespace-pre-wrap wrap-break-word",
                   "ring-1 ring-border/50",
                   isUser
-                    ? "bg-linear-to-br from-primary via-secondary to-accent text-primary-foreground rounded-tr-none"
+                    ? "bg-linear-to-br from-primary/20 via-secondary/20 to-accent/20 text-foreground rounded-tr-none"
                     : "bg-card/70 backdrop-blur supports-backdrop-filter:bg-card/50 text-foreground rounded-tl-none",
                 )}
               >

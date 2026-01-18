@@ -1,11 +1,9 @@
-#!/usr/bin/env python
 import os
 import sys
 
 
 def main():
     """Run administrative tasks."""
-    # Add src to the Python path
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
     try:

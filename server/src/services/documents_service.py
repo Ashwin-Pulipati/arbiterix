@@ -35,7 +35,6 @@ class DocumentsService:
         self.repo.soft_delete(owner_id=owner_id, document_id=document_id)
 
     def request_delete(self, identity: Identity, owner_id: int, document_id: int) -> DocumentOut:
-        # Users who can read a document can request its deletion if they own it (enforced by repo)
         if not self.auth.check(identity, "read", "document"):
             raise PermissionError("Forbidden")
         doc = self.repo.request_delete(owner_id=owner_id, document_id=document_id)

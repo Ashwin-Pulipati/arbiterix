@@ -29,8 +29,7 @@ class TmdbClient:
         data = resp.json()
         results = data.get("results") or []
         return results[:limit]
-
-    # ✅ Backwards/forwards compatibility with your MoviesService usage
+   
     def search_movies(self, query: str, limit: int) -> list[dict]:
         return self.search_movie(query=query, limit=limit)
 

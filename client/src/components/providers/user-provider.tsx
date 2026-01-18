@@ -1,10 +1,9 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import { User } from "@/types";
 import { useLocalStorage } from "react-use";
 
-// Mock users matching backend expectations
 const MOCK_USERS: User[] = [
   { id: 1, username: "demo", role: "user", tenant: "default" },
   { id: 2, username: "admin", role: "admin", tenant: "default" },
@@ -19,23 +18,17 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export function UserProvider({ children }: { children: React.ReactNode }) {
-  const [storedUser, setStoredUser] = useLocalStorage<User>("arbiter_user", MOCK_USERS[0]);
-  const [mounted, setMounted] = useState(false);
+export function UserProvider({ children }: { readonly children: React.ReactNode }) {
+  const [user, setUser] = useLocalStorage<User>("arbiter_user", MOCK_USERS[0]);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
-
-  const user = (mounted && storedUser) ? storedUser : MOCK_USERS[0];
-
-  const setUser = (newUser: User) => {
-    setStoredUser(newUser);
-  };
+  const value = useMemo(() => ({
+    user: user || MOCK_USERS[0],
+    setUser,
+    availableUsers: MOCK_USERS,
+  }), [user, setUser]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, availableUsers: MOCK_USERS }}>
+    <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
   );

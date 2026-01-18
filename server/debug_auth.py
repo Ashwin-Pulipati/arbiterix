@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 
-# Setup environment like manage.py
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
