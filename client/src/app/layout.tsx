@@ -29,8 +29,37 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Arbiter",
-  description: "Agentic AI Workspace",
+  title: {
+    default: "Arbiter",
+    template: `%s - Arbiter`,
+  },
+  description:
+    "Arbiter: An intelligent, multi-tenant application for seamless interaction with documents, movies, and AI-powered chat. Built with Next.js, Django, and LangChain.",
+  keywords: [
+    "Arbiter",
+    "Ashwin Pulipati",
+    "AI workspace",
+    "document management",
+    "movie search",
+    "AI chat",
+    "Next.js",
+    "Django",
+    "LangChain",
+    "multi-tenant",
+  ],
+  authors: [
+    { name: "Ashwin Pulipati", url: "https://github.com/Ashwin-Pulipati" },
+  ],
+  creator: "Ashwin Pulipati",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://github.com/Ashwin-Pulipati/Arbiter", // Replace with actual URL when deployed
+    title: "Arbiter - AI-Powered Workspace",
+    description:
+      "An intelligent, multi-tenant application for seamless interaction with documents, movies, and AI-powered chat.",
+    siteName: "Arbiter",
+  },
 };
 
 export default function RootLayout({
