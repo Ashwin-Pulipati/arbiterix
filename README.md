@@ -8,7 +8,7 @@
   <p align="center">
     An intelligent, multi-tenant application for seamless interaction with documents, movies, and LLM-powered chat.
     <br />
-    <em>View Demo</em>
+    <a href="https://arbiter.vercel.app"><strong>View Demo »</strong></a>
   </p>
 </div>
 
@@ -42,7 +42,7 @@ This project is built with a modern tech stack that ensures scalability, type sa
 ## 🏗️ System Architecture
 
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/6c58c702-b83e-41ec-bb20-8e65e05addea" alt="Arbiter System Architecture Diagram" width="900"/>
+    <img src="https://github.com/user-attachments/assets/6c58c702-b83e-41ec-bb20-8e65e05addea" alt="Arbiter System Architecture Diagram" width="900" height="700"/>
 </div>
 <br />
 
