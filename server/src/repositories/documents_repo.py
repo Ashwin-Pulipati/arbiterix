@@ -42,3 +42,9 @@ class DocumentsRepository:
         obj.delete_requested = True
         obj.save(update_fields=["delete_requested", "updated_at"])
         return obj
+
+    def undo_request_delete(self, document_id: int) -> Document:
+        obj = Document.objects.get(id=document_id, is_deleted=False)
+        obj.delete_requested = False
+        obj.save(update_fields=["delete_requested", "updated_at"])
+        return obj

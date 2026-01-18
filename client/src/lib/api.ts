@@ -123,6 +123,16 @@ export const api = {
         user,
         signal,
       }),
+    undoRequestDelete: (
+      id: number,
+      user: ApiUserHeaders,
+      signal?: AbortSignal
+    ) =>
+      fetchAPI<Document>(`/documents/${id}/undo-request-delete`, {
+        method: "POST",
+        user,
+        signal,
+      }),
   },
 
   movies: {

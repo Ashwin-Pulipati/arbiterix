@@ -40,3 +40,7 @@ class DocumentsService:
             raise PermissionError("Forbidden")
         doc = self.repo.request_delete(owner_id=owner_id, document_id=document_id)
         return DocumentOut.model_validate(doc, from_attributes=True)
+
+    def undo_request_delete(self, identity: Identity, document_id: int) -> DocumentOut:
+        doc = self.repo.undo_request_delete(document_id=document_id)
+        return DocumentOut.model_validate(doc, from_attributes=True)
