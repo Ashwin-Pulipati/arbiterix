@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/Ashwin-Pulipati/Arbiter">
+  <a href="https://github.com/Ashwin-Pulipati/arbiter">
     <img src="client/public/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -77,7 +77,7 @@ Make sure you have Node.js, npm, and Python installed on your machine.
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/Ashwin-Pulipati/Arbiter.git
+    git clone https://github.com/Ashwin-Pulipati/arbiter.git
     cd Arbiter
     ```
 2.  **Set up Backend:**
@@ -136,4 +136,4 @@ Distributed under the MIT License. See the `LICENSE` file for more information.
 
 Ashwin Pulipati - [LinkedIn](https://www.linkedin.com/in/ashwinpulipati/) - ashwinpulipati@gmail.com
 
-Project Link: [https://github.com/Ashwin-Pulipati/Arbiter](https://github.com/Ashwin-Pulipati/Arbiter)
+Project Link: [https://github.com/Ashwin-Pulipati/arbiter](https://github.com/Ashwin-Pulipati/arbiter)

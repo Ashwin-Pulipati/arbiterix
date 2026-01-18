@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://github.com/Ashwin-Pulipati/Arbiter", // Replace with actual URL when deployed
+    url: "https://github.com/Ashwin-Pulipati/arbiter",
     title: "Arbiter - AI-Powered Workspace",
     description:
       "An intelligent, multi-tenant application for seamless interaction with documents, movies, and AI-powered chat.",
