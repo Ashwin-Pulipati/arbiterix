@@ -24,10 +24,10 @@ export default function ChatPage() {
       <div className="flex flex-col h-full gap-4">
         <div className="flex items-start md:items-center justify-between gap-4">
           <div className="space-y-1 min-w-0">
-            <h2 className="text-3xl font-bold font-display text-gradient">
+            <h2 className="text-4xl font-bold font-display text-gradient">
               Chat
             </h2>
-            <p className="text-muted-foreground">
+            <p className="font-sans">
               Interact with specialized agents with thread persistence.
             </p>
           </div>

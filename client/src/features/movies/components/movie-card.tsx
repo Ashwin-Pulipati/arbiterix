@@ -52,7 +52,7 @@ export function MovieCard({
 
         <CardContent className="p-4 space-y-2">
           <h3
-            className="font-semibold leading-tight truncate"
+            className="font-semibold leading-tight truncate text-base"
             title={movie.title}
           >
             {movie.title}

@@ -67,7 +67,7 @@ export function MovieDetailDialog({
 
               <div className="mt-6 space-y-4">
                 <div>
-                  <h4 className="font-semibold mb-2 flex items-center gap-2">
+                  <h4 className="font-semibold mb-2 flex items-center gap-2 text-lg font-mono">
                     <Info className="h-4 w-4" aria-hidden="true" />
                     Overview
                   </h4>

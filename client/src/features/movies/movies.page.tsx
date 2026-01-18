@@ -14,10 +14,10 @@ export function MoviesPage() {
   return (
     <Shell>
       <div className="space-y-1">
-        <h2 className="text-3xl font-bold font-display text-gradient">
+        <h2 className="text-4xl font-bold font-display text-gradient">
           Movies
         </h2>
-        <p className="text-muted-foreground">
+        <p className="font-sans">
           Discover movies powered by AI agents.
         </p>
       </div>

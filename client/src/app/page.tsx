@@ -61,10 +61,10 @@ export default function DashboardPage() {
   return (
     <Shell>
       <div className="flex flex-col space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight font-display text-gradient">
+        <h2 className="text-4xl font-bold font-display text-gradient">
           Dashboard
         </h2>
-        <p className="text-muted-foreground">
+        <p className="font-sans">
           Welcome back,{" "}
           <span className="font-semibold text-foreground">{user.username}</span>
           . Here&apos;s what&apos;s happening.
