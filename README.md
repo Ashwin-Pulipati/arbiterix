@@ -23,7 +23,7 @@ This project is built with a modern tech stack that ensures scalability, type sa
 *   **Frontend Framework:** [React](https://react.dev/), [Next.js](https://nextjs.org/)
 *   **Backend Framework:** [Django](https://www.djangoproject.com/)
 *   **API Layer:** [Django Ninja](https://django-ninja.rest-framework.com/)
-*   **Database:** [Neon](https://neon.tech/), [PostgreSQL](https://www.postgresql.org/)
+*   **Database:** [Neon PostgreSQL](https://neon.tech/)
 *   **LLM Frameworks:** [LangChain](https://www.langchain.com/) & [LangGraph](https://langchain-ai.github.io/langgraph/)
 *   **AI Models:** [OpenAI](https://platform.openai.com/)
 *   **Authorization:** [Permit.io](https://www.permit.io/)
@@ -42,7 +42,7 @@ This project is built with a modern tech stack that ensures scalability, type sa
 ## 🏗️ System Architecture
 
 <div align="center">
-    <img src="" alt="Arbiter System Architecture Diagram" width="900">
+    <img src="https://github.com/user-attachments/assets/6c58c702-b83e-41ec-bb20-8e65e05addea" alt="Arbiter System Architecture Diagram" width="900"/>
 </div>
 <br />
 
