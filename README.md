@@ -6,67 +6,56 @@
   <h3 align="center">Arbiter</h3>
 
   <p align="center">
-    An open-source Agentic AI workspace that autonomously reasons, plans, and acts to help you manage and interact with your data.
+    An intelligent, multi-tenant application for seamless interaction with documents, movies, and AI-powered chat.
     <br />
-    <em>View Demo >></em>
+    <em>(Demo link not available yet)</em>
   </p>
 </div>
 
 ## 📝 About The Project
 
-Arbiter is not just another application—it's an **agentic system**. Powered by Large Language Models (LLMs), Arbiter is designed to be a proactive, intelligent partner that goes beyond simple chat. It's a modern, full-stack application that can autonomously understand your goals, interact with different data sources like documents and movies, and execute tasks on your behalf.
+Arbiter is a modern, full-stack application designed to serve as a centralized hub for managing and interacting with various data sources. It features distinct, permission-controlled modules for document management, movie discovery, and a sophisticated chat interface powered by large language models. Built with a robust backend and a sleek, component-based UI, Arbiter is perfect for teams and individuals looking for a powerful and organized data interaction tool.
 
-This project leverages a robust backend and a sleek, component-based UI to create a seamless environment for both individual developers and teams looking to explore the power of agentic AI.
+## ⚙️ Built With
 
-## ✨ Built With
+This project is built with a modern tech stack that ensures scalability, type safety, and a great developer experience.
 
-Arbiter is built with a cutting-edge, modular tech stack designed for scalability, performance, and a best-in-class developer experience.
-
-**AI & Orchestration:**
-*   **[LangChain](https://www.langchain.com/) & [LangGraph](https://langchain-ai.github.io/langgraph/):** Core frameworks for building stateful, multi-actor applications with LLMs. LangGraph enables the creation of cyclical, agentic architectures.
-*   **[OpenAI](https://platform.openai.com/):** Powers the reasoning and language understanding capabilities of the agent.
-
-**Backend:**
-*   **[Python](https://www.python.org/) & [Django](https://www.djangoproject.com/):** A robust and scalable foundation for the backend services.
-*   **[Django Ninja](https://django-ninja.rest-framework.com/):** A fast, type-hinted API layer for seamless frontend-backend communication.
-*   **[PostgreSQL](https://www.postgresql.org/):** Serves as the primary data store for application data and conversation history.
-
-**Frontend:**
-*   **[Next.js](https://next.js.org/) & [React](https://react.dev/):** For building a fast, modern, and server-driven user interface.
-*   **[TypeScript](https://www.typescriptlang.org/):** Ensures type safety and improves code quality across the application.
-*   **[Tailwind CSS](https://tailwindcss.com/) & [Shadcn/UI](https://ui.shadcn.com/):** For creating a beautiful, responsive, and accessible component-based UI.
-
-**Authorization & Deployment:**
-*   **[Permit.io](https://www.permit.io/):** Manages fine-grained, role-based access control (RBAC) to secure the application.
-*   **[Vercel](https://vercel.com/):** For seamless deployment of the frontend application.
+*   **Frontend Framework:** [Next.js](https://nextjs.org/)
+*   **Backend Framework:** [Django](https://www.djangoproject.com/)
+*   **API Layer:** [Django Ninja](https://django-ninja.rest-framework.com/)
+*   **Database:** [PostgreSQL](https://www.postgresql.org/)
+*   **AI Orchestration:** [LangChain](https://www.langchain.com/) & [LangGraph](https://langchain-ai.github.io/langgraph/)
+*   **AI Models:** [OpenAI](https://platform.openai.com/)
+*   **Authorization:** [Permit.io](https://www.permit.io/)
+*   **UI:** [Tailwind CSS](https://tailwindcss.com/) & [Shadcn/UI](https://ui.shadcn.com/)
+*   **Deployment:** Vercel (Frontend), TBD (Backend)
 
 ## ✅ Key Features
 
--   **Agentic AI Core:** Interact with an AI that can **reason, plan, and execute** tasks by using tools.
--   **Autonomous Tool Use:** The AI agent can autonomously decide which tools to use (e.g., document search, movie database query) to accomplish your goals.
--   **Multi-Tenant Architecture:** Securely isolates data and permissions for different users and organizations.
--   **Retrieval Augmented Generation (RAG):** The agent can search your private documents to provide context-aware, accurate answers.
--   **Fine-Grained Access Control:** Sophisticated, role-based permissions ensure that users and agents can only access authorized data.
--   **Interactive & Modern UI:** A sleek, responsive interface built for an intuitive user experience.
+- **Multi-Tenant Architecture:** Securely separate data and access for different users and teams.
+- **AI-Powered Chat:** Interact with an intelligent agent that can access and reason about your data.     
+- **Document Management:** Full CRUD functionality for documents with role-based access control (admins vs. users).
+- **Movie Discovery:** Search for movies and view details from The Movie Database (TMDB).
+- **Secure Authorization:** Fine-grained permissions managed by Permit.io.
+- **Interactive UI:** A rich, responsive interface built with a modern component library.
 
 ## 🏗️ System Architecture
 
 Arbiter is built with a focus on a clean separation of concerns, security, and powerful AI orchestration. The system is divided into three main layers:
 
 ### 1. Frontend Application (Next.js)
--   **UI/UX:** Built with React, TypeScript, and Tailwind CSS, using Shadcn/UI for a highly responsive and accessible component-based user experience.
--   **API Communication:** Communicates with the backend via a RESTful API, with clear data contracts.
--   **User-Specific Views:** The UI dynamically adapts based on the authenticated user's role and permissions.
+- **UI/UX:** Built with React, TypeScript, and Tailwind CSS, using Shadcn/UI for a highly responsive and accessible component-based user experience.
+- **API Communication:** Communicates with the backend via a RESTful API, with clear data contracts.      
+- **User-Specific Views:** The UI dynamically adapts based on the authenticated user's role and permissions.
 
 ### 2. Backend Services (Django & Django Ninja)
--   **Business Logic:** The Django backend handles all core business logic, from data validation to user management.
--   **API Endpoints:** Django Ninja provides a fast, type-hinted API layer for the frontend to consume.
--   **Authorization:** Integrates with Permit.io to enforce policies, ensuring users can only access the data and perform the actions they are authorized for.
+- **Business Logic:** The Django backend handles all core business logic, from data validation to user management.
+- **API Endpoints:** Django Ninja provides a fast, type-hinted API layer for the frontend to consume.     
+- **Authorization:** Integrates with Permit.io to enforce policies, ensuring users can only access the data and perform the actions they are authorized for.
 
 ### 3. AI & Data Layer (LangChain, PostgreSQL)
--   **Agentic Engine:** At the heart of Arbiter is a sophisticated agent built with **LangGraph**. This allows for cyclical reasoning, where the agent can plan, execute, reflect, and re-plan, similar to a human thought process.
--   **Tool Integration:** The agent has access to a set of tools (e.g., `document_search`, `movie_lookup`) that it can call upon to gather information or perform actions.
--   **Persistence:** A PostgreSQL database stores all application data, including user information, documents, and the agent's conversation history, providing a stateful memory.
+- **AI Orchestration:** LangChain and LangGraph are used to build and manage the AI agent, allowing it to interact with tools (like document retrieval or movie search) and maintain conversation history.
+- **Persistence:** A PostgreSQL database stores all application data, including user information, documents, and chat history.
 
 ## ▶️ Getting Started
 
@@ -145,6 +134,6 @@ Distributed under the MIT License. See the `LICENSE` file for more information.
 
 ## 📧 Contact
 
-Ashwin Pulipati - [LinkedIn](https://www.linkedin.com/in/ashwinpulipati/) - ashwinpulipati@gmail.com
+Ashwin Pulipati - [LinkedIn](https://www.linkedin.com/in/ashwinpulipati/) - ashwinpulipati@gmail.com      
 
-Project Link: [https://github.com/Ashwin-Pulipati/arbiter](https://github.com/Ashwin-Pulipati/arbiter)
+Project Link: [https://github.com/Ashwin-Pulipati/arbiter](https://github.com/Ashwin-Pulipati/arbiter)    
