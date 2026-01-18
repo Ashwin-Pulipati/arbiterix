@@ -1,7 +1,7 @@
 django
 django-ninja
 django-cors-headers
-jupyter
+
 langchain
 langchain-openai
 langgraph

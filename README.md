@@ -6,34 +6,34 @@
   <h3 align="center">Arbiter</h3>
 
   <p align="center">
-    An intelligent, multi-tenant application for seamless interaction with documents, movies, and AI-powered chat.
+    An intelligent, multi-tenant application for seamless interaction with documents, movies, and LLM-powered chat.
     <br />
-    <em>(Demo link not available yet)</em>
+    <em>View Demo</em>
   </p>
 </div>
 
 ## 📝 About The Project
 
-Arbiter is a modern, full-stack application designed to serve as a centralized hub for managing and interacting with various data sources. It features distinct, permission-controlled modules for document management, movie discovery, and a sophisticated chat interface powered by large language models. Built with a robust backend and a sleek, component-based UI, Arbiter is perfect for teams and individuals looking for a powerful and organized data interaction tool.
+Arbiter is a modern, full-stack Agentic AI application designed to serve as a centralized hub for managing and interacting with various data sources. It features distinct, permission-controlled modules for document management, movie discovery, and a sophisticated chat interface powered by LLMs. Built with a robust backend and a sleek, component-based UI, Arbiter is perfect for teams and individuals looking for a powerful and organized data interaction tool.
 
 ## ⚙️ Built With
 
 This project is built with a modern tech stack that ensures scalability, type safety, and a great developer experience.
 
-*   **Frontend Framework:** [Next.js](https://nextjs.org/)
+*   **Frontend Framework:** [React](https://react.dev/), [Next.js](https://nextjs.org/)
 *   **Backend Framework:** [Django](https://www.djangoproject.com/)
 *   **API Layer:** [Django Ninja](https://django-ninja.rest-framework.com/)
-*   **Database:** [PostgreSQL](https://www.postgresql.org/)
-*   **AI Orchestration:** [LangChain](https://www.langchain.com/) & [LangGraph](https://langchain-ai.github.io/langgraph/)
+*   **Database:** [Neon](https://neon.tech/), [PostgreSQL](https://www.postgresql.org/)
+*   **LLM Frameworks:** [LangChain](https://www.langchain.com/) & [LangGraph](https://langchain-ai.github.io/langgraph/)
 *   **AI Models:** [OpenAI](https://platform.openai.com/)
 *   **Authorization:** [Permit.io](https://www.permit.io/)
-*   **UI:** [Tailwind CSS](https://tailwindcss.com/) & [Shadcn/UI](https://ui.shadcn.com/)
-*   **Deployment:** Vercel (Frontend), TBD (Backend)
+*   **UI & Styling:** [Tailwind CSS](https://tailwindcss.com/) & [Shadcn/UI](https://ui.shadcn.com/)
+*   **Deployment:** [Vercel](https://vercel.com/)
 
 ## ✅ Key Features
 
 - **Multi-Tenant Architecture:** Securely separate data and access for different users and teams.
-- **AI-Powered Chat:** Interact with an intelligent agent that can access and reason about your data.     
+- **LLM-Powered Agentic Chat:** Interact with an intelligent agent that can access and reason about your data, featuring tools for document retrieval and movie lookups.
 - **Document Management:** Full CRUD functionality for documents with role-based access control (admins vs. users).
 - **Movie Discovery:** Search for movies and view details from The Movie Database (TMDB).
 - **Secure Authorization:** Fine-grained permissions managed by Permit.io.
@@ -41,21 +41,26 @@ This project is built with a modern tech stack that ensures scalability, type sa
 
 ## 🏗️ System Architecture
 
-Arbiter is built with a focus on a clean separation of concerns, security, and powerful AI orchestration. The system is divided into three main layers:
+<div align="center">
+    <img src="" alt="Arbiter System Architecture Diagram" width="900">
+</div>
+<br />
 
-### 1. Frontend Application (Next.js)
-- **UI/UX:** Built with React, TypeScript, and Tailwind CSS, using Shadcn/UI for a highly responsive and accessible component-based user experience.
-- **API Communication:** Communicates with the backend via a RESTful API, with clear data contracts.      
-- **User-Specific Views:** The UI dynamically adapts based on the authenticated user's role and permissions.
+Arbiter is an enterprise-ready Agentic AI orchestration platform built on a modern Next.js and Django Ninja stack. The architecture is designed to handle complex, multi-step reasoning tasks while enforcing strict, policy-based access control.
 
-### 2. Backend Services (Django & Django Ninja)
-- **Business Logic:** The Django backend handles all core business logic, from data validation to user management.
-- **API Endpoints:** Django Ninja provides a fast, type-hinted API layer for the frontend to consume.     
-- **Authorization:** Integrates with Permit.io to enforce policies, ensuring users can only access the data and perform the actions they are authorized for.
+### 1. Presentation & API Layer
+*   **Next.js Frontend:** A highly responsive dashboard providing real-time feedback on agent reasoning and task execution.
+*   **Django Ninja Backend:** A fast, type-safe Python API that handles asynchronous requests and provides a bridge between the user interface and the AI orchestration layer.
+*   **Fine-Grained Authorization (Permit.io):** Integrates Policy-as-Code to ensure that agents only access tools and data that the specific user is authorized to see, preventing data leakage.
 
-### 3. AI & Data Layer (LangChain, PostgreSQL)
-- **AI Orchestration:** LangChain and LangGraph are used to build and manage the AI agent, allowing it to interact with tools (like document retrieval or movie search) and maintain conversation history.
-- **Persistence:** A PostgreSQL database stores all application data, including user information, documents, and chat history.
+### 2. Multi-Agent Orchestration (The Supervisor Pattern)
+*   **LangGraph Supervisor:** Orchestrates a "Stateful Graph" where a central supervisor agent intelligently delegates sub-tasks to specialized worker agents based on the user's intent.
+*   **Specialized LangChain Agents:** Individual agents equipped with specific tools (e.g., Document Analysis, Movie Database API, Web Search). This modularity allows for higher accuracy and easier debugging of the reasoning chain.
+*   **Short-Term Memory:** Uses LangGraph’s state management to maintain context across multiple turns of conversation, allowing the supervisor to remember previous results when assigning the next task.
+
+### 3. Data & Tool Integration
+*   **PostgreSQL Persistence:** Stores user profiles, session metadata, and audit logs of agent actions for transparency and debugging.
+*   **Tool-Calling Layer:** A standardized interface that allows agents to interact with external APIs and local document stores safely and deterministically.
 
 ## ▶️ Getting Started
 
