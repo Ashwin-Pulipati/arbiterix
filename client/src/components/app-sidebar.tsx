@@ -1,5 +1,3 @@
-"use client";
-
 import {
   FileText,
   Film,
@@ -9,11 +7,12 @@ import {
   MoreHorizontal,
   Plus,
   Trash2,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
-import { useAsyncFn, useInterval, useMedia } from "react-use";
+import { useAsyncFn, useMedia } from "react-use";
 
 import { useUser } from "@/components/providers/user-provider";
 import ThemeToggle from "@/components/theme-toggle";
@@ -71,13 +70,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     fetchHistory();
   }, [fetchHistory]);
 
-  useInterval(
-    () => {
-      fetchHistory();
-    },
-    user ? 7000 : null,
-  );
-
   const history = historyState.value || [];
 
   return (
@@ -117,25 +109,30 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenu>
         </SidebarGroup>
 
-        {history.length > 0 && (
-          <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-            <SidebarGroupLabel className="flex items-center gap-2">
-              <History className="h-3.5 w-3.5" aria-hidden="true" />
-              Recents
-            </SidebarGroupLabel>
+        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+          <SidebarGroupLabel className="flex items-center gap-2">
+            <History className="h-3.5 w-3.5" aria-hidden="true" />
+            Recents
+          </SidebarGroupLabel>
 
-            <SidebarGroupAction title="New Chat" asChild className="hover:bg-accent">
-              <Link
-                href="/chat"
-                className="focus-ring rounded-full"
-              >
-                <Plus />
-                <span className="sr-only">New Chat</span>
-              </Link>
-            </SidebarGroupAction>
+          <SidebarGroupAction title="New Chat" asChild className="hover:bg-accent">
+            <Link
+              href="/chat"
+              className="focus-ring rounded-full"
+            >
+              <Plus />
+              <span className="sr-only">New Chat</span>
+            </Link>
+          </SidebarGroupAction>
 
-            <SidebarMenu className="px-2">
-              {history.map((item) => (
+          <SidebarMenu className="px-2">
+            {historyState.loading ? (
+              <div className="flex items-center justify-center py-4 text-sm text-muted-foreground">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Loading Chats...
+              </div>
+            ) : (
+              history.map((item) => (
                 <SidebarMenuItem key={item.id}>
                   <SidebarMenuButton
                     asChild
@@ -174,10 +171,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroup>
-        )}
+              ))
+            )}
+            {!historyState.loading && history.length === 0 && (
+              <div className="py-4 text-center text-sm text-muted-foreground">
+                No recent chats.
+              </div>
+            )}
+          </SidebarMenu>
+        </SidebarGroup>
+
         <SidebarGroup className="hidden group-data-[collapsible=icon]:block">
           <SidebarMenu className="px-2">
             <SidebarMenuItem>

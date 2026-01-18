@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
-import { Shell } from "@/components/layout/shell";
+import { useEffect, useCallback } from "react";
 import { useUser } from "@/components/providers/user-provider";
 import { toast } from "sonner";
 import { useTitle } from "react-use";
@@ -15,7 +14,7 @@ export function DocumentsPage() {
 
   const { user } = useUser();
   const ctrl = useDocumentsController(user);
-  const { refresh } = ctrl.actions;
+  const { refresh, openEdit, deleteDoc, requestDeleteDoc, undoRequestDeleteDoc, updateDoc, createDoc } = ctrl.actions;
 
   useEffect(() => {
     refresh();
@@ -23,8 +22,59 @@ export function DocumentsPage() {
 
   const dialog = ctrl.state.dialog;
 
+  const onEditCallback = useCallback((d) => openEdit(d), [openEdit]);
+
+  const onDeleteCallback = useCallback(async (id) => {
+    try {
+      await deleteDoc(id);
+      toast.success("Document deleted");
+    } catch (e) {
+      toast.error(
+        e instanceof Error ? e.message : "Failed to delete document"
+      );
+    }
+  }, [deleteDoc]);
+
+  const onRequestDeleteCallback = useCallback(async (id) => {
+    try {
+      await requestDeleteDoc(id);
+      toast.success("Deletion requested");
+    } catch (e) {
+      toast.error(
+        e instanceof Error ? e.message : "Failed to request deletion"
+      );
+    }
+  }, [requestDeleteDoc]);
+
+  const onUndoRequestDeleteCallback = useCallback(async (id) => {
+    try {
+      await undoRequestDeleteDoc(id);
+      toast.success("Deletion request undone");
+    } catch (e) {
+      toast.error(
+        e instanceof Error
+          ? e.message
+          : "Failed to undo deletion request"
+      );
+    }
+  }, [undoRequestDeleteDoc]);
+
+  const onDialogSubmit = useCallback(async (v) => {
+    try {
+      if (dialog.mode === "edit" && dialog.doc) {
+        await updateDoc(dialog.doc.id, v);
+        toast.success("Document updated");
+      } else {
+        await createDoc(v);
+        toast.success("Document created");
+      }
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Operation failed");
+    }
+  }, [dialog.mode, dialog.doc, updateDoc, createDoc]);
+
   return (
-    <Shell>
+    <>
       <DocumentsToolbar
         query={ctrl.state.query}
         onQueryChange={ctrl.setQuery}
@@ -35,39 +85,10 @@ export function DocumentsPage() {
         user={user}
         loading={ctrl.listState.loading}
         documents={ctrl.documents}
-        onEdit={(d) => ctrl.actions.openEdit(d)}
-        onDelete={async (id) => {
-          try {
-            await ctrl.actions.deleteDoc(id);
-            toast.success("Document deleted");
-          } catch (e) {
-            toast.error(
-              e instanceof Error ? e.message : "Failed to delete document"
-            );
-          }
-        }}
-        onRequestDelete={async (id) => {
-          try {
-            await ctrl.actions.requestDeleteDoc(id);
-            toast.success("Deletion requested");
-          } catch (e) {
-            toast.error(
-              e instanceof Error ? e.message : "Failed to request deletion"
-            );
-          }
-        }}
-        onUndoRequestDelete={async (id) => {
-          try {
-            await ctrl.actions.undoRequestDeleteDoc(id);
-            toast.success("Deletion request undone");
-          } catch (e) {
-            toast.error(
-              e instanceof Error
-                ? e.message
-                : "Failed to undo deletion request"
-            );
-          }
-        }}
+        onEdit={onEditCallback}
+        onDelete={onDeleteCallback}
+        onRequestDelete={onRequestDeleteCallback}
+        onUndoRequestDelete={onUndoRequestDeleteCallback}
         disableActions={
           ctrl.ops.deleting ||
           ctrl.ops.requestingDelete ||
@@ -81,20 +102,8 @@ export function DocumentsPage() {
         doc={dialog.doc}
         loading={dialog.mode === "edit" ? ctrl.ops.updating : ctrl.ops.creating}
         onClose={ctrl.actions.closeDialog}
-        onSubmit={async (v) => {
-          try {
-            if (dialog.mode === "edit" && dialog.doc) {
-              await ctrl.actions.updateDoc(dialog.doc.id, v);
-              toast.success("Document updated");
-            } else {
-              await ctrl.actions.createDoc(v);
-              toast.success("Document created");
-            }
-          } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Operation failed");
-          }
-        }}
+        onSubmit={onDialogSubmit}
       />
-    </Shell>
+    </>
   );
 }

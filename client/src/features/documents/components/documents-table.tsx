@@ -21,6 +21,8 @@ const formatDate = (dateString?: string) => {
   return `${mm}-${dd}-${yyyy} ${hhStr}:${min} ${ampm}`;
 };
 
+import { DocumentRow } from "./document-row";
+
 export function DocumentsTable({
   user,
   loading,
@@ -72,86 +74,16 @@ export function DocumentsTable({
             </TableRow>
           ) : (
             documents.map((doc) => (
-              <TableRow key={doc.id} className="group">
-                <TableCell>
-                  <FileText className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" aria-hidden="true" />
-                </TableCell>
-                <TableCell className="font-medium">{doc.title}</TableCell>
-                <TableCell className="text-muted-foreground text-sm">{doc.owner_username}</TableCell>
-                <TableCell className="text-muted-foreground max-w-[220px] truncate">{doc.content}</TableCell>
-                <TableCell>
-                  {doc.status === "delete_requested" && (
-                    <Badge variant="destructive" className="text-[10px] px-2 py-0 h-5">
-                      Deletion Requested
-                    </Badge>
-                  )}
-                  {doc.status === "updated" && (
-                    <Badge variant="outline" className="text-[10px] px-2 py-0 h-5 bg-blue-500/10 text-blue-700 border-blue-500/20">
-                      Updated
-                    </Badge>
-                  )}
-                  {doc.status === "created" && (
-                    <Badge variant="outline" className="text-[10px] px-2 py-0 h-5 bg-green-500/10 text-green-700 border-green-500/20">
-                      New
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell className="text-muted-foreground text-xs whitespace-nowrap">{formatDate(doc.created_at)}</TableCell>
-                <TableCell className="text-muted-foreground text-xs whitespace-nowrap">{formatDate(doc.updated_at)}</TableCell>
-                <TableCell className="text-right text-muted-foreground text-xs font-mono">{doc.id}</TableCell>
-                <TableCell className="text-right">
-                  <div className="flex items-center justify-end gap-1">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => onEdit(doc)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity text-primary hover:text-primary hover:bg-primary/10 focus-ring"
-                      aria-label={`Edit ${doc.title}`}
-                    >
-                      <Pencil className="h-4 w-4" aria-hidden="true" />
-                    </Button>
-
-                    {user.role === "admin" ? (
-                      doc.delete_requested ? (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => onUndoRequestDelete(doc.id)}
-                          disabled={disableActions}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity text-green-500 hover:text-green-600 hover:bg-green-500/10 focus-ring"
-                          aria-label={`Undo deletion request for ${doc.title}`}
-                        >
-                          <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => onDelete(doc.id)}
-                          disabled={disableActions}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity text-destructive hover:text-destructive hover:bg-destructive/10 focus-ring"
-                          aria-label={`Delete ${doc.title}`}
-                        >
-                          <Trash2 className="h-4 w-4" aria-hidden="true" />
-                        </Button>
-                      )
-                    ) : (
-                      !doc.delete_requested && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => onRequestDelete(doc.id)}
-                          disabled={disableActions}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity text-amber-500 hover:text-amber-600 hover:bg-amber-500/10 focus-ring"
-                          aria-label={`Request deletion for ${doc.title}`}
-                        >
-                          <ShieldAlert className="h-4 w-4" aria-hidden="true" />
-                        </Button>
-                      )
-                    )}
-                  </div>
-                </TableCell>
-              </TableRow>
+              <DocumentRow
+                key={doc.id}
+                doc={doc}
+                user={user}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onRequestDelete={onRequestDelete}
+                onUndoRequestDelete={onUndoRequestDelete}
+                disableActions={disableActions}
+              />
             ))
           )}
         </TableBody>

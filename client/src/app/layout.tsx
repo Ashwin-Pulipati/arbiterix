@@ -4,6 +4,7 @@ import "./globals.css";
 import { UserProvider } from "@/components/providers/user-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import { Shell } from "@/components/layout/shell";
 import { ThemeProvider as NextJSThemeProvider } from "next-themes";
 
 const corben = Corben({
@@ -59,7 +60,9 @@ export default function RootLayout({
         >
           <UserProvider>
             <TooltipProvider delayDuration={0}>
-              {children}
+              <Shell>
+                {children}
+              </Shell>
               <Toaster richColors closeButton position="top-right" />
             </TooltipProvider>
           </UserProvider>

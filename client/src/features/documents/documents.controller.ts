@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   useAsyncFn,
   useDebounce,
@@ -18,6 +18,7 @@ type State = {
 
 export function useDocumentsController(user: ApiUserHeaders) {
   const isMounted = useMountedState();
+  const [docs, setDocs] = useState<Document[]>([]);
 
   const [state, setState] = useSetState<State>({
     query: "",
@@ -28,6 +29,7 @@ export function useDocumentsController(user: ApiUserHeaders) {
   const [listState, fetchList] = useAsyncFn(async () => {
     const ac = new AbortController();
     const data = await api.documents.list(user, ac.signal);
+    setDocs(data);
     return data;
   }, [user.id, user.tenant, user.role, user.username]);
 
@@ -42,17 +44,14 @@ export function useDocumentsController(user: ApiUserHeaders) {
     [state.query]
   );
 
-  const documents = listState.value;
-
   const filtered = useMemo(() => {
-    const docs = documents || [];
     const q = state.debounced;
     if (!q) return docs;
     return docs.filter(
       (d) =>
         d.title.toLowerCase().includes(q) || (d.content || "").toLowerCase().includes(q)
     );
-  }, [documents, state.debounced]);
+  }, [docs, state.debounced]);
 
   const openCreate = useCallback(
     () => setState({ dialog: { open: true, mode: "create" } }),
@@ -66,59 +65,65 @@ export function useDocumentsController(user: ApiUserHeaders) {
     () => setState({ dialog: { open: false, mode: "create" } }),
     [setState]
   );
+  
+  const updateDocInState = useCallback((updated: Document) => {
+    setDocs(current => current.map(d => d.id === updated.id ? updated : d));
+  }, [setDocs]);
 
   const [createState, createDoc] = useAsyncFn(
     async (data: DocumentCreate) => {
-      await api.documents.create(data, user);
-      const res = await refresh();
+      const newDoc = await api.documents.create(data, user);
+      setDocs(current => [newDoc, ...current]);
       if (isMounted()) closeDialog();
-      return res;
+      return newDoc;
     },
-    [user, refresh, closeDialog, isMounted]
+    [user, closeDialog, isMounted]
   );
 
   const [updateState, updateDoc] = useAsyncFn(
     async (id: number, data: DocumentCreate) => {
-      await api.documents.update(id, data, user);
-      const res = await refresh();
+      const updated = await api.documents.update(id, data, user);
+      updateDocInState(updated);
       if (isMounted()) closeDialog();
-      return res;
+      return updated;
     },
-    [user, refresh, closeDialog, isMounted]
+    [user, updateDocInState, closeDialog, isMounted]
   );
 
   const [deleteState, deleteDoc] = useAsyncFn(
     async (id: number) => {
       await api.documents.delete(id, user);
-      return refresh();
+      setDocs(current => current.filter(d => d.id !== id));
     },
-    [user, refresh]
+    [user]
   );
 
   const [requestDeleteState, requestDeleteDoc] = useAsyncFn(
     async (id: number) => {
       try {
-        await api.documents.requestDelete(id, user);
-        return refresh();
+        const updated = await api.documents.requestDelete(id, user);
+        updateDocInState(updated);
+        return updated;
       } catch (e) {
         if (e instanceof ApiError) throw e;
         throw new Error("Failed to request deletion");
       }
     },
-    [user, refresh]
+    [user, updateDocInState]
   );
 
   const [undoRequestDeleteState, undoRequestDeleteDoc] = useAsyncFn(
     async (id: number) => {
       try {
-        await api.documents.undoRequestDelete(id, user);
-        return refresh();
+        const updated = await api.documents.undoRequestDelete(id, user);
+        updateDocInState(updated);
+        return updated;
       } catch (e) {
         if (e instanceof ApiError) throw e;
         throw new Error("Failed to undo deletion request");
       }
     },
-    [user, refresh]
+    [user, updateDocInState]
   );
 
   return useMemo(

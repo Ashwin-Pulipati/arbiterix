@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { Bot } from "lucide-react";
-import { Shell } from "@/components/layout/shell";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useUser } from "@/components/providers/user-provider";
@@ -20,7 +19,7 @@ export default function ChatPage() {
   const ctrl = useChatController({ user });
 
   return (
-    <Shell>
+    <>
       <div className="flex flex-col h-full gap-4">
         <div className="flex items-start md:items-center justify-between gap-4">
           <div className="space-y-1 min-w-0">
@@ -77,6 +76,6 @@ export default function ChatPage() {
           />
         </Card>
       </div>
-    </Shell>
+    </>
   );
 }

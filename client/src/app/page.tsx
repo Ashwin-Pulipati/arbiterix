@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useAsync, useNetworkState, useWindowSize } from "react-use";
-import { Shell } from "@/components/layout/shell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Film, Loader2, WifiOff } from "lucide-react";
 import { api } from "@/lib/api";
@@ -59,7 +58,7 @@ export default function DashboardPage() {
   );
 
   return (
-    <Shell>
+    <>
       <div className="flex flex-col space-y-2">
         <h2 className="text-4xl font-bold font-display text-gradient">
           Dashboard
@@ -165,6 +164,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-    </Shell>
+    </>
   );
 }

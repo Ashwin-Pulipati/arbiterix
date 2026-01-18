@@ -1,6 +1,5 @@
 "use client";
 
-import { Shell } from "@/components/layout/shell";
 import { useTitle } from "react-use";
 import { MoviesSearch } from "./components/movies-search";
 import { MovieCard } from "./components/movie-card";
@@ -12,7 +11,7 @@ export function MoviesPage() {
   const ctrl = useMoviesController();
 
   return (
-    <Shell>
+    <>
       <div className="space-y-1">
         <h2 className="text-4xl font-bold font-display text-gradient">
           Movies
@@ -58,6 +57,6 @@ export function MoviesPage() {
         loading={ctrl.detailLoading}
         movie={ctrl.detail || null}
       />
-    </Shell>
+    </>
   );
 }
