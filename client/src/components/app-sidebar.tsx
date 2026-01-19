@@ -8,6 +8,7 @@ import {
   Plus,
   Trash2,
   Loader2,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -41,18 +42,26 @@ import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { UserSelector } from "./user-selector";
 
-const routes = [
+const baseRoutes = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/" },
   { label: "Chat", icon: MessageSquare, href: "/chat" },
   { label: "Documents", icon: FileText, href: "/documents" },
   { label: "Movies", icon: Film, href: "/movies" },
-] as const;
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const { user } = useUser();
   const isMdUp = useMedia("(min-width: 768px)", false);
 
+  const routes = React.useMemo(() => {
+    const allRoutes = [...baseRoutes];
+    if (user && user.role === 'admin') {
+      allRoutes.push({ label: "Users", icon: Users, href: "/users" });
+    }
+    return allRoutes;
+  }, [user]);
+  
   const [historyState, fetchHistory] = useAsyncFn(async () => {
     if (!user) return [];
     return api.chat.listThreads(user);

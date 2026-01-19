@@ -52,6 +52,12 @@ export interface ChatResponse {
   thread_id: string;
 }
 
+export interface UserCreate {
+  username: string;
+  password: string;
+  role: "admin" | "user";
+}
+
 export interface User {
   id: number;
   username: string;
