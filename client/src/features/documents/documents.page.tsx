@@ -8,6 +8,7 @@ import { DocumentsToolbar } from "./components/documents-toolbar";
 import { DocumentsTable } from "./components/documents-table";
 import { DocumentDialog } from "./components/document-dialog";
 import { useDocumentsController } from "./documents.controller";
+import type { Document, DocumentCreate } from "@/types";
 
 export function DocumentsPage() {
   useTitle("Arbiter • Documents");
@@ -22,9 +23,9 @@ export function DocumentsPage() {
 
   const dialog = ctrl.state.dialog;
 
-  const onEditCallback = useCallback((d) => openEdit(d), [openEdit]);
+  const onEditCallback = useCallback((d: Document) => openEdit(d), [openEdit]);
 
-  const onDeleteCallback = useCallback(async (id) => {
+  const onDeleteCallback = useCallback(async (id: number) => {
     try {
       await deleteDoc(id);
       toast.success("Document deleted");
@@ -35,7 +36,7 @@ export function DocumentsPage() {
     }
   }, [deleteDoc]);
 
-  const onRequestDeleteCallback = useCallback(async (id) => {
+  const onRequestDeleteCallback = useCallback(async (id: number) => {
     try {
       await requestDeleteDoc(id);
       toast.success("Deletion requested");
@@ -46,7 +47,7 @@ export function DocumentsPage() {
     }
   }, [requestDeleteDoc]);
 
-  const onUndoRequestDeleteCallback = useCallback(async (id) => {
+  const onUndoRequestDeleteCallback = useCallback(async (id: number) => {
     try {
       await undoRequestDeleteDoc(id);
       toast.success("Deletion request undone");
@@ -59,7 +60,7 @@ export function DocumentsPage() {
     }
   }, [undoRequestDeleteDoc]);
 
-  const onDialogSubmit = useCallback(async (v) => {
+  const onDialogSubmit = useCallback(async (v: DocumentCreate) => {
     try {
       if (dialog.mode === "edit" && dialog.doc) {
         await updateDoc(dialog.doc.id, v);
