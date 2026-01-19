@@ -6,6 +6,8 @@ import type {
   Document,
   DocumentCreate,
   Movie,
+  User,
+  UserCreate,
 } from "@/types";
 
 const API_BASE_URL =
@@ -82,6 +84,17 @@ async function fetchAPI<T>(
 }
 
 export const api = {
+  users: {
+    list: (user: ApiUserHeaders, signal?: AbortSignal) =>
+      fetchAPI<User[]>("/users/", { user, signal }),
+    create: (data: UserCreate, user: ApiUserHeaders, signal?: AbortSignal) =>
+      fetchAPI<void>("/users/", {
+        method: "POST",
+        body: JSON.stringify(data),
+        user,
+        signal,
+      }),
+  },
   documents: {
     list: (user: ApiUserHeaders, signal?: AbortSignal) =>
       fetchAPI<Document[]>("/documents/", { user, signal }),
