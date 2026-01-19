@@ -1,6 +1,6 @@
+import { Button } from "@/components/ui/button";
 import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (
@@ -17,7 +17,7 @@ const Footer = () => {
 
       <div className="flex items-center gap-4 ">
         <Button asChild className="rounded-full">
-          <Link href="https://github.com/Ashwin-Pulipati/arbiter">
+          <Link href="https://github.com/Ashwin-Pulipati/arbiterix">
             <Github className="mr-2 h-4 w-4" /> Github
           </Link>
         </Button>

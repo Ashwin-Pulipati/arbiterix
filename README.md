@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/Ashwin-Pulipati/arbiter">
+  <a href="https://github.com/Ashwin-Pulipati/arbiterix">
     <img src="client/public/logo.png" alt="Logo" width="100" height="100">
   </a>
 
@@ -8,7 +8,7 @@
   <p align="center">
     An intelligent, multi-tenant application for seamless interaction with documents, movies, and LLM-powered chat.
     <br />
-    <a href="https://arbiter.vercel.app"><strong>View Demo »</strong></a>
+    <a href="https://arbiterix.vercel.app"><strong>View Demo »</strong></a>
   </p>
 </div>
 
@@ -20,15 +20,15 @@ Arbiter is a modern, full-stack Agentic AI application designed to serve as a ce
 
 This project is built with a modern tech stack that ensures scalability, type safety, and a great developer experience.
 
-*   **Frontend Framework:** [React](https://react.dev/), [Next.js](https://nextjs.org/)
-*   **Backend Framework:** [Django](https://www.djangoproject.com/)
-*   **API Layer:** [Django Ninja](https://django-ninja.rest-framework.com/)
-*   **Database:** [Neon PostgreSQL](https://neon.tech/)
-*   **LLM Frameworks:** [LangChain](https://www.langchain.com/) & [LangGraph](https://langchain-ai.github.io/langgraph/)
-*   **AI Models:** [OpenAI](https://platform.openai.com/)
-*   **Authorization:** [Permit.io](https://www.permit.io/)
-*   **UI & Styling:** [Tailwind CSS](https://tailwindcss.com/) & [Shadcn/UI](https://ui.shadcn.com/)
-*   **Deployment:** [Vercel](https://vercel.com/)
+- **Frontend Framework:** [React](https://react.dev/), [Next.js](https://nextjs.org/)
+- **Backend Framework:** [Django](https://www.djangoproject.com/)
+- **API Layer:** [Django Ninja](https://django-ninja.rest-framework.com/)
+- **Database:** [Neon PostgreSQL](https://neon.tech/)
+- **LLM Frameworks:** [LangChain](https://www.langchain.com/) & [LangGraph](https://langchain-ai.github.io/langgraph/)
+- **AI Models:** [OpenAI](https://platform.openai.com/)
+- **Authorization:** [Permit.io](https://www.permit.io/)
+- **UI & Styling:** [Tailwind CSS](https://tailwindcss.com/) & [Shadcn/UI](https://ui.shadcn.com/)
+- **Deployment:** [Vercel](https://vercel.com/)
 
 ## ✅ Key Features
 
@@ -49,18 +49,21 @@ This project is built with a modern tech stack that ensures scalability, type sa
 Arbiter is an enterprise-ready Agentic AI orchestration platform built on a modern Next.js and Django Ninja stack. The architecture is designed to handle complex, multi-step reasoning tasks while enforcing strict, policy-based access control.
 
 ### 1. Presentation & API Layer
-*   **Next.js Frontend:** A highly responsive dashboard providing real-time feedback on agent reasoning and task execution.
-*   **Django Ninja Backend:** A fast, type-safe Python API that handles asynchronous requests and provides a bridge between the user interface and the AI orchestration layer.
-*   **Fine-Grained Authorization (Permit.io):** Integrates Policy-as-Code to ensure that agents only access tools and data that the specific user is authorized to see, preventing data leakage.
+
+- **Next.js Frontend:** A highly responsive dashboard providing real-time feedback on agent reasoning and task execution.
+- **Django Ninja Backend:** A fast, type-safe Python API that handles asynchronous requests and provides a bridge between the user interface and the AI orchestration layer.
+- **Fine-Grained Authorization (Permit.io):** Integrates Policy-as-Code to ensure that agents only access tools and data that the specific user is authorized to see, preventing data leakage.
 
 ### 2. Multi-Agent Orchestration (The Supervisor Pattern)
-*   **LangGraph Supervisor:** Orchestrates a "Stateful Graph" where a central supervisor agent intelligently delegates sub-tasks to specialized worker agents based on the user's intent.
-*   **Specialized LangChain Agents:** Individual agents equipped with specific tools (e.g., Document Analysis, Movie Database API, Web Search). This modularity allows for higher accuracy and easier debugging of the reasoning chain.
-*   **Short-Term Memory:** Uses LangGraph’s state management to maintain context across multiple turns of conversation, allowing the supervisor to remember previous results when assigning the next task.
+
+- **LangGraph Supervisor:** Orchestrates a "Stateful Graph" where a central supervisor agent intelligently delegates sub-tasks to specialized worker agents based on the user's intent.
+- **Specialized LangChain Agents:** Individual agents equipped with specific tools (e.g., Document Analysis, Movie Database API, Web Search). This modularity allows for higher accuracy and easier debugging of the reasoning chain.
+- **Short-Term Memory:** Uses LangGraph’s state management to maintain context across multiple turns of conversation, allowing the supervisor to remember previous results when assigning the next task.
 
 ### 3. Data & Tool Integration
-*   **PostgreSQL Persistence:** Stores user profiles, session metadata, and audit logs of agent actions for transparency and debugging.
-*   **Tool-Calling Layer:** A standardized interface that allows agents to interact with external APIs and local document stores safely and deterministically.
+
+- **PostgreSQL Persistence:** Stores user profiles, session metadata, and audit logs of agent actions for transparency and debugging.
+- **Tool-Calling Layer:** A standardized interface that allows agents to interact with external APIs and local document stores safely and deterministically.
 
 ## ▶️ Getting Started
 
@@ -69,20 +72,21 @@ To get a local copy up and running, follow these simple steps.
 ### Prerequisites
 
 Make sure you have Node.js, npm, and Python installed on your machine.
-*   npm
-    ```sh
-    npm install npm@latest -g
-    ```
-*   Python & Pip
-    ```sh
-    # Ensure Python and pip are installed and available in your PATH
-    ```
+
+- npm
+  ```sh
+  npm install npm@latest -g
+  ```
+- Python & Pip
+  ```sh
+  # Ensure Python and pip are installed and available in your PATH
+  ```
 
 ### Installation
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/Ashwin-Pulipati/arbiter.git
+    git clone https://github.com/Ashwin-Pulipati/arbiterix.git
     cd Arbiter
     ```
 2.  **Set up Backend:**
@@ -139,6 +143,6 @@ Distributed under the MIT License. See the `LICENSE` file for more information.
 
 ## 📧 Contact
 
-Ashwin Pulipati - [LinkedIn](https://www.linkedin.com/in/ashwinpulipati/) - ashwinpulipati@gmail.com      
+Ashwin Pulipati - [LinkedIn](https://www.linkedin.com/in/ashwinpulipati/) - ashwinpulipati@gmail.com
 
-Project Link: [https://github.com/Ashwin-Pulipati/arbiter](https://github.com/Ashwin-Pulipati/arbiter)    
+Project Link: [https://github.com/Ashwin-Pulipati/arbiterix](https://github.com/Ashwin-Pulipati/arbiterix)

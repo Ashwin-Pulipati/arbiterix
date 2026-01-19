@@ -1,11 +1,11 @@
+import { Shell } from "@/components/layout/shell";
+import { UserProvider } from "@/components/providers/user-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Metadata } from "next";
+import { ThemeProvider as NextJSThemeProvider } from "next-themes";
 import { Corben, Nunito, Nunito_Sans } from "next/font/google";
 import "./globals.css";
-import { UserProvider } from "@/components/providers/user-provider";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { Toaster } from "@/components/ui/sonner";
-import { Shell } from "@/components/layout/shell";
-import { ThemeProvider as NextJSThemeProvider } from "next-themes";
 
 const corben = Corben({
   variable: "--font-corben",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://github.com/Ashwin-Pulipati/arbiter",
+    url: "https://github.com/Ashwin-Pulipati/arbiterix",
     title: "Arbiter - AI-Powered Workspace",
     description:
       "An intelligent, multi-tenant application for seamless interaction with documents, movies, and AI-powered chat.",
@@ -89,9 +89,7 @@ export default function RootLayout({
         >
           <UserProvider>
             <TooltipProvider delayDuration={0}>
-              <Shell>
-                {children}
-              </Shell>
+              <Shell>{children}</Shell>
               <Toaster richColors closeButton position="top-right" />
             </TooltipProvider>
           </UserProvider>
