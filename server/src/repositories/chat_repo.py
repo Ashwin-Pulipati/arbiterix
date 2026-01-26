@@ -26,5 +26,11 @@ class ChatRepository:
         thread.save()
         return thread
 
+    def update_message(self, owner_id: int, message_id: int, content: str) -> ChatMessage:
+        message = ChatMessage.objects.get(id=message_id, thread__owner_id=owner_id)
+        message.content = content
+        message.save()
+        return message
+
     def delete_thread(self, owner_id: int, thread_id: int) -> None:
         ChatThread.objects.filter(id=thread_id, owner_id=owner_id).delete()

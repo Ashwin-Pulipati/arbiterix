@@ -21,7 +21,7 @@ from domain.auth.types import Identity
 from integrations.authorizer import Authorizer
 from repositories.chat_repo import ChatRepository
 from services.chat_service import ChatService
-from domain.chat.schemas import ChatThreadOut, ChatMessageOut, ChatThreadUpdate
+from domain.chat.schemas import ChatThreadOut, ChatMessageOut, ChatThreadUpdate, ChatMessageUpdate
 
 router = Router(tags=["chat"])
 
@@ -166,6 +166,27 @@ def update_thread(
         raise HttpError(403, "Forbidden")
     except ObjectDoesNotExist:
         raise HttpError(404, "Thread not found")
+    except Exception as e:
+        raise HttpError(500, str(e))
+
+@router.put("/messages/{message_id}")
+def update_message(
+    request,
+    message_id: int,
+    payload: ChatMessageUpdate,
+    x_user_id: int = Header(..., alias="X-User-Id"),
+    x_tenant: str | None = Header(None, alias="X-Tenant"),
+    x_user_role: str = Header("user", alias="X-User-Role"),
+    x_user_name: str = Header("user", alias="X-User-Name"),
+):
+    try:
+        identity, owner_id = _identity_from_headers(x_user_id, x_tenant, x_user_role, x_user_name)
+        _svc.update_message(identity=identity, owner_id=owner_id, message_id=message_id, content=payload.content)
+        return {"message": "success"}
+    except PermissionError:
+        raise HttpError(403, "Forbidden")
+    except ObjectDoesNotExist:
+        raise HttpError(404, "Message not found")
     except Exception as e:
         raise HttpError(500, str(e))
 

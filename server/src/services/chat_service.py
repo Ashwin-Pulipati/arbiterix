@@ -39,3 +39,9 @@ class ChatService:
         #     raise PermissionError("Forbidden")
             
         self.repo.update_thread_title(owner_id=owner_id, thread_id=thread_id, title=title)
+
+    def update_message(self, identity: Identity, owner_id: int, message_id: int, content: str) -> None:
+        # if not self.auth.check(identity, "read", "chat"):
+        #     raise PermissionError("Forbidden")
+            
+        self.repo.update_message(owner_id=owner_id, message_id=message_id, content=content)

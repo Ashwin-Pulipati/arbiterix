@@ -36,6 +36,7 @@ type ChatControllerActions = {
   onSetAgent: (a: ChatAgent) => void;
   onSend: () => Promise<void>;
   onResetThread: () => void;
+  onUpdateMessage: (id: string, content: string) => Promise<void>;
 };
 
 type ChatControllerRefs = {
@@ -133,7 +134,8 @@ export function useChatController({
 
     try {
       res = await api.chat.send(payload, user);
-    } catch {
+    } catch (e) {
+      console.error("Chat Error:", e);
       const errMsg: ChatMessage = {
         id: `${Date.now()}-e`,
         role: "assistant",
@@ -177,6 +179,15 @@ export function useChatController({
     router.push(pathname);
   }, [pathname, router]);
 
+  const onUpdateMessage = React.useCallback(async (id: string, content: string) => {
+    setMessages((prev) => prev.map(m => m.id === id ? { ...m, content } : m));
+    try {
+      await api.chat.updateMessage(Number(id), content, user);
+    } catch (e) {
+      console.error("Failed to update message", e);
+    }
+  }, [user]);
+
   const canSend = online && !loading && input.trim().length > 0;
 
   const state: ChatControllerState = {
@@ -194,6 +205,7 @@ export function useChatController({
     onSetAgent: setAgent,
     onSend,
     onResetThread,
+    onUpdateMessage,
   };
 
   const refs: ChatControllerRefs = { endRef };

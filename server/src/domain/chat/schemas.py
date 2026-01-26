@@ -16,3 +16,6 @@ class ChatMessageOut(BaseModel):
 
 class ChatThreadUpdate(BaseModel):
     title: str
+
+class ChatMessageUpdate(BaseModel):
+    content: str
