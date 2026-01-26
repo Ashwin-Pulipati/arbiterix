@@ -7,12 +7,12 @@ const Footer = () => {
     <footer className="flex flex-col md:flex-row space-y-4 md:space-y-0 justify-between items-center px-4 py-3 bg-background/95 border-t border-border">
       <Link href="/">
         <h1 className="font-display text-2xl font-bold text-gradient">
-          Arbiter
+          Arbiterix
         </h1>
       </Link>
 
       <span className="text-sm text-muted-foreground">
-        &copy; {new Date().getFullYear()} Arbiter. All rights reserved.
+        &copy; {new Date().getFullYear()} Arbiterix. All rights reserved.
       </span>
 
       <div className="flex items-center gap-4 ">

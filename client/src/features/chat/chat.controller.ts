@@ -1,11 +1,11 @@
 "use client";
 
-import * as React from "react";
-import { api } from "@/lib/api";
 import type { ApiUserHeaders } from "@/lib/api";
+import { api } from "@/lib/api";
 import type { ChatRequest, ChatResponse } from "@/types";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import * as React from "react";
 import { useAsyncFn, useNetworkState, useTitle } from "react-use";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 export type ChatAgent = "Supervisor" | "Documents" | "Movies";
 
@@ -42,14 +42,17 @@ type ChatControllerRefs = {
   endRef: React.RefObject<HTMLDivElement | null>;
 };
 
-export function useChatController({ user, onThreadCreated }: UseChatControllerArgs) {
-  useTitle("Arbiter • Chat");
+export function useChatController({
+  user,
+  onThreadCreated,
+}: UseChatControllerArgs) {
+  useTitle("Arbiterix • Chat");
 
   const endRef = React.useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const net = useNetworkState();
   const online = Boolean(net.online ?? true);
 
@@ -58,30 +61,38 @@ export function useChatController({ user, onThreadCreated }: UseChatControllerAr
   const [input, setInput] = React.useState("");
   const [agent, setAgent] = React.useState<ChatAgent>("Supervisor");
   const [messages, setMessages] = React.useState<ChatMessage[]>([]);
-  const [threadId, setThreadId] = React.useState<string | undefined>(queryThreadId);
-  
+  const [threadId, setThreadId] = React.useState<string | undefined>(
+    queryThreadId,
+  );
+
   React.useEffect(() => {
     setThreadId(queryThreadId);
     if (!queryThreadId) {
-        setMessages([]);
+      setMessages([]);
     }
   }, [queryThreadId]);
 
-  const [, loadThread] = useAsyncFn(async (tid: string) => {
-    try {
-      const msgs = await api.chat.getThreadMessages(tid, user);
-      const mapped: ChatMessage[] = msgs.map((m) => ({
-        id: String(m.id),
-        role: m.role === "system" ? "assistant" : (m.role as "user" | "assistant"),
-        content: m.content,
-        agent: "System",
-      }));
-      setMessages(mapped);
-    } catch (e) {
-      console.error("Failed to load thread", e);
-    }
-  }, [user]);
-  
+  const [, loadThread] = useAsyncFn(
+    async (tid: string) => {
+      try {
+        const msgs = await api.chat.getThreadMessages(tid, user);
+        const mapped: ChatMessage[] = msgs.map((m) => ({
+          id: String(m.id),
+          role:
+            m.role === "system"
+              ? "assistant"
+              : (m.role as "user" | "assistant"),
+          content: m.content,
+          agent: "System",
+        }));
+        setMessages(mapped);
+      } catch (e) {
+        console.error("Failed to load thread", e);
+      }
+    },
+    [user],
+  );
+
   React.useEffect(() => {
     if (threadId) {
       loadThread(threadId);

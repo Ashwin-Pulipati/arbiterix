@@ -1,13 +1,13 @@
 "use client";
 
 import { useTitle } from "react-use";
-import { MoviesSearch } from "./components/movies-search";
 import { MovieCard } from "./components/movie-card";
 import { MovieDetailDialog } from "./components/movie-detail-dialog";
+import { MoviesSearch } from "./components/movies-search";
 import { useMoviesController } from "./movies.controller";
 
 export function MoviesPage() {
-  useTitle("Arbiter • Movies");
+  useTitle("Arbiterix • Movies");
   const ctrl = useMoviesController();
 
   return (
@@ -16,9 +16,7 @@ export function MoviesPage() {
         <h2 className="text-4xl font-bold font-display text-gradient">
           Movies
         </h2>
-        <p className="font-sans">
-          Discover movies powered by AI agents.
-        </p>
+        <p className="font-sans">Discover movies powered by AI agents.</p>
       </div>
 
       <MoviesSearch

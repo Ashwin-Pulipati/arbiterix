@@ -1,25 +1,22 @@
 "use client";
 
-import * as React from "react";
-import { Suspense } from "react";
-import { Bot, Loader2 } from "lucide-react";
+import { useChatHistory } from "@/components/providers/chat-provider";
+import { useUser } from "@/components/providers/user-provider";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useUser } from "@/components/providers/user-provider";
-import { useChatHistory } from "@/components/providers/chat-provider";
-import {
-  useTitle
-} from "react-use";
-import { AgentSelect } from "./components/agent-select";
-import { MessageList } from "./components/message-list";
-import { Composer } from "./components/composer";
+import { Bot, Loader2 } from "lucide-react";
+import { Suspense } from "react";
+import { useTitle } from "react-use";
 import { useChatController } from "./chat.controller";
+import { AgentSelect } from "./components/agent-select";
+import { Composer } from "./components/composer";
+import { MessageList } from "./components/message-list";
 
 function ChatPageContent() {
-  useTitle("Arbiter • Chat");
+  useTitle("Arbiterix • Chat");
   const { user } = useUser();
   const { refetch } = useChatHistory();
-  const ctrl = useChatController({ 
+  const ctrl = useChatController({
     user,
     onThreadCreated: refetch,
   });
@@ -86,11 +83,13 @@ function ChatPageContent() {
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={
-      <div className="flex h-full items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex h-full items-center justify-center">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      }
+    >
       <ChatPageContent />
     </Suspense>
   );

@@ -3,7 +3,7 @@
     <img src="client/public/logo.png" alt="Logo" width="100" height="100">
   </a>
 
-  <h3 align="center">Arbiter</h3>
+  <h3 align="center">Arbiterix</h3>
 
   <p align="center">
     An intelligent, multi-tenant application for seamless interaction with documents, movies, and LLM-powered chat.
@@ -14,7 +14,7 @@
 
 ## 📝 About The Project
 
-Arbiter is a modern, full-stack Agentic AI application designed to serve as a centralized hub for managing and interacting with various data sources. It features distinct, permission-controlled modules for document management, movie discovery, and a sophisticated chat interface powered by LLMs. Built with a robust backend and a sleek, component-based UI, Arbiter is perfect for teams and individuals looking for a powerful and organized data interaction tool.
+Arbiterix is a modern, full-stack Agentic AI application designed to serve as a centralized hub for managing and interacting with various data sources. It features distinct, permission-controlled modules for document management, movie discovery, and a sophisticated chat interface powered by LLMs. Built with a robust backend and a sleek, component-based UI, Arbiterix is perfect for teams and individuals looking for a powerful and organized data interaction tool.
 
 ## ⚙️ Built With
 
@@ -42,11 +42,11 @@ This project is built with a modern tech stack that ensures scalability, type sa
 ## 🏗️ System Architecture
 
 <div align="center">
-    <img src="https://github.com/user-attachments/assets/6c58c702-b83e-41ec-bb20-8e65e05addea" alt="Arbiter System Architecture Diagram" width="900" height="700"/>
+    <img src="https://github.com/user-attachments/assets/6c58c702-b83e-41ec-bb20-8e65e05addea" alt="Arbiterix System Architecture Diagram" width="900" height="700"/>
 </div>
 <br />
 
-Arbiter is an enterprise-ready Agentic AI orchestration platform built on a modern Next.js and Django Ninja stack. The architecture is designed to handle complex, multi-step reasoning tasks while enforcing strict, policy-based access control.
+Arbiterix is an enterprise-ready Agentic AI orchestration platform built on a modern Next.js and Django Ninja stack. The architecture is designed to handle complex, multi-step reasoning tasks while enforcing strict, policy-based access control.
 
 ### 1. Presentation & API Layer
 
@@ -87,7 +87,7 @@ Make sure you have Node.js, npm, and Python installed on your machine.
 1.  **Clone the repository:**
     ```sh
     git clone https://github.com/Ashwin-Pulipati/arbiterix.git
-    cd Arbiter
+    cd Arbiterix
     ```
 2.  **Set up Backend:**
     Navigate to the `server` directory, create a virtual environment, and install dependencies.

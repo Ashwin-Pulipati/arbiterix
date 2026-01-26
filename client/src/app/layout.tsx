@@ -30,13 +30,13 @@ const nunitoSans = Nunito_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Arbiter",
-    template: `%s - Arbiter`,
+    default: "Arbiterix",
+    template: `%s - Arbiterix`,
   },
   description:
-    "Arbiter: An intelligent, multi-tenant application for seamless interaction with documents, movies, and AI-powered chat. Built with Next.js, Django, and LangChain.",
+    "Arbiterix: An intelligent, multi-tenant application for seamless interaction with documents, movies, and AI-powered chat. Built with Next.js, Django, and LangChain.",
   keywords: [
-    "Arbiter",
+    "Arbiterix",
     "Ashwin Pulipati",
     "AI workspace",
     "document management",
@@ -55,10 +55,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://github.com/Ashwin-Pulipati/arbiterix",
-    title: "Arbiter - AI-Powered Workspace",
+    title: "Arbiterix - AI-Powered Workspace",
     description:
       "An intelligent, multi-tenant application for seamless interaction with documents, movies, and AI-powered chat.",
-    siteName: "Arbiter",
+    siteName: "Arbiterix",
   },
 };
 
