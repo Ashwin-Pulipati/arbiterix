@@ -6,6 +6,12 @@ class UserCreate(Schema):
     password: str
     role: str # "admin" or "user"
 
+class UserRoleUpdate(Schema):
+    role: str # "admin" or "user"
+
+class UserPasswordReset(Schema):
+    password: str
+
 class UserSchema(Schema):
     id: int
     username: str

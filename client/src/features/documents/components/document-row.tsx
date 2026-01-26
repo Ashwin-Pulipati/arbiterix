@@ -82,18 +82,19 @@ export const DocumentRow = React.memo(function DocumentRow({
           </Button>
 
           {user.role === "admin" ? (
-            doc.delete_requested ? (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => onUndoRequestDelete(doc.id)}
-                disabled={disableActions}
-                className="opacity-0 group-hover:opacity-100 transition-opacity text-green-500 hover:text-green-600 hover:bg-green-500/10 focus-ring"
-                aria-label={`Undo deletion request for ${doc.title}`}
-              >
-                <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-              </Button>
-            ) : (
+            <>
+              {doc.delete_requested && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => onUndoRequestDelete(doc.id)}
+                  disabled={disableActions}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity text-green-500 hover:text-green-600 hover:bg-green-500/10 focus-ring"
+                  aria-label={`Undo deletion request for ${doc.title}`}
+                >
+                  <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+                </Button>
+              )}
               <Button
                 variant="ghost"
                 size="icon"
@@ -104,7 +105,7 @@ export const DocumentRow = React.memo(function DocumentRow({
               >
                 <Trash2 className="h-4 w-4" aria-hidden="true" />
               </Button>
-            )
+            </>
           ) : (
             !doc.delete_requested && (
               <Button

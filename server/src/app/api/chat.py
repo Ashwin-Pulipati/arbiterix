@@ -21,10 +21,11 @@ from domain.auth.types import Identity
 from integrations.authorizer import Authorizer
 from repositories.chat_repo import ChatRepository
 from services.chat_service import ChatService
-from domain.chat.schemas import ChatThreadOut, ChatMessageOut
+from domain.chat.schemas import ChatThreadOut, ChatMessageOut, ChatThreadUpdate
 
 router = Router(tags=["chat"])
 
+# Force reload
 _repo = ChatRepository()
 _auth = Authorizer()
 _svc = ChatService(repo=_repo, auth=_auth)
@@ -139,6 +140,25 @@ def delete_thread(
     try:
         identity, owner_id = _identity_from_headers(x_user_id, x_tenant, x_user_role, x_user_name)
         _svc.delete_thread(identity=identity, owner_id=owner_id, thread_id=thread_id)
+        return {"message": "success"}
+    except PermissionError:
+        raise HttpError(403, "Forbidden")
+    except Exception as e:
+        raise HttpError(500, str(e))
+
+@router.put("/threads/{thread_id}")
+def update_thread(
+    request,
+    thread_id: int,
+    payload: ChatThreadUpdate,
+    x_user_id: int = Header(..., alias="X-User-Id"),
+    x_tenant: str | None = Header(None, alias="X-Tenant"),
+    x_user_role: str = Header("user", alias="X-User-Role"),
+    x_user_name: str = Header("user", alias="X-User-Name"),
+):
+    try:
+        identity, owner_id = _identity_from_headers(x_user_id, x_tenant, x_user_role, x_user_name)
+        _svc.update_thread_title(identity=identity, owner_id=owner_id, thread_id=thread_id, title=payload.title)
         return {"message": "success"}
     except PermissionError:
         raise HttpError(403, "Forbidden")

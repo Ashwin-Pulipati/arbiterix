@@ -21,20 +21,17 @@ export function UserProvider({ children }: { readonly children: React.ReactNode 
   
   const [usersState, fetchUsers] = useAsyncFn(async () => {
     const currentUser = user || defaultUser;
-    if (currentUser.role === 'admin') {
-      try {
-        const users = await api.users.list(currentUser);
-        // Ensure the current user is in the list, if not add it.
-        if (!users.find(u => u.id === currentUser.id)) {
-          return [currentUser, ...users];
-        }
-        return users;
-      } catch (e) {
-        // if the call fails (e.g. for non-admins), just return the current user
-        return [currentUser];
+    try {
+      const users = await api.users.list(currentUser);
+      // Ensure the current user is in the list, if not add it.
+      if (!users.find(u => u.id === currentUser.id)) {
+        return [currentUser, ...users];
       }
+      return users;
+    } catch (e) {
+      // if the call fails, just return the current user
+      return [currentUser];
     }
-    return [currentUser]; // for non-admin users, only show themselves
   }, [user]);
 
   useEffect(() => {

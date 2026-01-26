@@ -18,6 +18,7 @@ export type ChatMessage = {
 
 type UseChatControllerArgs = {
   user: ApiUserHeaders;
+  onThreadCreated?: () => void;
 };
 
 type ChatControllerState = {
@@ -30,18 +31,9 @@ type ChatControllerState = {
   canSend: boolean;
 };
 
-type ChatControllerActions = {
-  onSetInput: (v: string) => void;
-  onSetAgent: (a: ChatAgent) => void;
-  onSend: () => Promise<void>;
-  onResetThread: () => void;
-};
+// ...
 
-type ChatControllerRefs = {
-  endRef: React.RefObject<HTMLDivElement | null>;
-};
-
-export function useChatController({ user }: UseChatControllerArgs) {
+export function useChatController({ user, onThreadCreated }: UseChatControllerArgs) {
   useTitle("Arbiter • Chat");
 
   const endRef = React.useRef<HTMLDivElement | null>(null);
@@ -135,6 +127,9 @@ export function useChatController({ user }: UseChatControllerArgs) {
     if (!threadId) {
       setThreadId(res.thread_id);
       router.push(`${pathname}?thread=${res.thread_id}`);
+      if (onThreadCreated) {
+        onThreadCreated();
+      }
     }
 
     const botMsg: ChatMessage = {

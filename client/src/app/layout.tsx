@@ -62,6 +62,10 @@ export const metadata: Metadata = {
   },
 };
 
+import { ChatProvider } from "@/components/providers/chat-provider";
+
+// ... existing imports
+
 export default function RootLayout({
   children,
 }: {
@@ -89,7 +93,9 @@ export default function RootLayout({
         >
           <UserProvider>
             <TooltipProvider delayDuration={0}>
-              <Shell>{children}</Shell>
+              <ChatProvider>
+                <Shell>{children}</Shell>
+              </ChatProvider>
               <Toaster richColors closeButton position="top-right" />
             </TooltipProvider>
           </UserProvider>
