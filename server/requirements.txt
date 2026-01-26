@@ -11,3 +11,7 @@ permit
 requests
 streamlit
 psycopg[binary]
+
+gunicorn
+uvicorn
+whitenoise
