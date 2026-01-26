@@ -33,14 +33,14 @@ export function DocumentsTable({
   onUndoRequestDelete,
   disableActions,
 }: {
-  user: User;
-  loading: boolean;
-  documents: Document[];
-  onEdit: (d: Document) => void;
-  onDelete: (id: number) => void;
-  onRequestDelete: (id: number) => void;
-  onUndoRequestDelete: (id: number) => void;
-  disableActions: boolean;
+  readonly user: User;
+  readonly loading: boolean;
+  readonly documents: Document[];
+  readonly onEdit: (d: Document) => void;
+  readonly onDelete: (id: number) => void;
+  readonly onRequestDelete: (id: number) => void;
+  readonly onUndoRequestDelete: (id: number) => void;
+  readonly disableActions: boolean;
 }) {
   return (
     <div className="surface overflow-hidden">

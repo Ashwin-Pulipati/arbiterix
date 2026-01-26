@@ -23,13 +23,13 @@ const formatDate = (dateString?: string) => {
 };
 
 interface DocumentRowProps {
-  doc: Document;
-  user: User;
-  onEdit: (d: Document) => void;
-  onDelete: (id: number) => void;
-  onRequestDelete: (id: number) => void;
-  onUndoRequestDelete: (id: number) => void;
-  disableActions: boolean;
+  readonly doc: Document;
+  readonly user: User;
+  readonly onEdit: (d: Document) => void;
+  readonly onDelete: (id: number) => void;
+  readonly onRequestDelete: (id: number) => void;
+  readonly onUndoRequestDelete: (id: number) => void;
+  readonly disableActions: boolean;
 }
 
 export const DocumentRow = React.memo(function DocumentRow({

@@ -7,9 +7,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { ChatMessage } from "../chat.controller";
 
 export type MessageListProps = {
-  messages: ChatMessage[];
-  loading: boolean;
-  endRef: React.RefObject<HTMLDivElement | null>;
+  readonly messages: ChatMessage[];
+  readonly loading: boolean;
+  readonly endRef: React.RefObject<HTMLDivElement | null>;
 };
 
 function AgentIcon({ agent }: { readonly agent: ChatMessage["agent"] }) {

@@ -40,11 +40,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 interface UsersTableProps {
-  users: UserType[];
-  currentUser: UserType;
-  onDelete: (id: number) => Promise<void>;
-  onUpdateRole: (id: number, role: "admin" | "user") => Promise<void>;
-  onResetPassword: (id: number, password: string) => Promise<void>;
+  readonly users: UserType[];
+  readonly currentUser: UserType;
+  readonly onDelete: (id: number) => Promise<void>;
+  readonly onUpdateRole: (id: number, role: "admin" | "user") => Promise<void>;
+  readonly onResetPassword: (id: number, password: string) => Promise<void>;
 }
 
 export function UsersTable({

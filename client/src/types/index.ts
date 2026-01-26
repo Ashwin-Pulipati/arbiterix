@@ -1,66 +1,66 @@
 export interface Document {
-  id: number;
-  title: string;
-  content: string | null;
-  owner_id: number;
-  owner_username: string;
-  status: "created" | "updated" | "delete_requested";
-  delete_requested?: boolean;
-  created_at?: string;
-  updated_at?: string;
+  readonly id: number;
+  readonly title: string;
+  readonly content: string | null;
+  readonly owner_id: number;
+  readonly owner_username: string;
+  readonly status: "created" | "updated" | "delete_requested";
+  readonly delete_requested?: boolean;
+  readonly created_at?: string;
+  readonly updated_at?: string;
 }
 
 export interface DocumentCreate {
-  title: string;
-  content: string;
+  readonly title: string;
+  readonly content: string;
 }
 
 export interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  release_date: string;
-  poster_path: string | null;
-  vote_average: number;
+  readonly id: number;
+  readonly title: string;
+  readonly overview: string;
+  readonly release_date: string;
+  readonly poster_path: string | null;
+  readonly vote_average: number;
 }
 
 export interface ChatThread {
-  id: number;
-  uuid: string;
-  title: string;
-  created_at: string;
-  updated_at: string;
+  readonly id: number;
+  readonly uuid: string;
+  readonly title: string;
+  readonly created_at: string;
+  readonly updated_at: string;
 }
 
 export interface ChatMessage {
-  id: string;
-  role: "user" | "assistant" | "system";
-  content: string;
-  created_at?: string;
+  readonly id: string;
+  readonly role: "user" | "assistant" | "system";
+  readonly content: string;
+  readonly created_at?: string;
 }
 
 export interface ChatRequest {
-  message: string;
-  thread_id?: string;
-  agent: "Supervisor" | "Documents" | "Movies";
-  user_id: number;
-  tenant?: string;
+  readonly message: string;
+  readonly thread_id?: string;
+  readonly agent: "Supervisor" | "Documents" | "Movies";
+  readonly user_id: number;
+  readonly tenant?: string;
 }
 
 export interface ChatResponse {
-  response: string;
-  thread_id: string;
+  readonly response: string;
+  readonly thread_id: string;
 }
 
 export interface UserCreate {
-  username: string;
-  password: string;
-  role: "admin" | "user";
+  readonly username: string;
+  readonly password: string;
+  readonly role: "admin" | "user";
 }
 
 export interface User {
-  id: number;
-  username: string;
-  role: "admin" | "user";
-  tenant: string;
+  readonly id: number;
+  readonly username: string;
+  readonly role: "admin" | "user";
+  readonly tenant: string;
 }
