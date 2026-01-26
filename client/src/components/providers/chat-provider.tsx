@@ -1,15 +1,14 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useMemo } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState, useCallback } from "react";
 import { ChatThread } from "@/types";
-import { useAsyncFn } from "react-use";
 import { api } from "@/lib/api";
 import { useUser } from "./user-provider";
 
 interface ChatContextType {
   threads: ChatThread[];
   loading: boolean;
-  refetch: () => Promise<ChatThread[] | undefined>;
+  refetch: () => Promise<void>;
   deleteThread: (id: number) => Promise<void>;
   updateThread: (id: number, title: string) => Promise<void>;
 }
@@ -18,10 +17,19 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 export function ChatProvider({ children }: { readonly children: React.ReactNode }) {
   const { user } = useUser();
+  const [threads, setThreads] = useState<ChatThread[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const [state, fetchThreads] = useAsyncFn(async () => {
-    if (!user) return [];
-    return api.chat.listThreads(user);
+  const fetchThreads = useCallback(async () => {
+    if (!user) return;
+    try {
+      const data = await api.chat.listThreads(user);
+      setThreads(data);
+    } catch (e) {
+      console.error("Failed to fetch threads", e);
+    } finally {
+      setLoading(false);
+    }
   }, [user]);
 
   useEffect(() => {
@@ -30,23 +38,36 @@ export function ChatProvider({ children }: { readonly children: React.ReactNode 
 
   const deleteThread = async (id: number) => {
     if (!user) return;
-    await api.chat.deleteThread(id, user);
-    fetchThreads();
+    // Optimistic update
+    setThreads((prev) => prev.filter((t) => t.id !== id));
+    try {
+      await api.chat.deleteThread(id, user);
+    } catch (e) {
+      // Revert if failed
+      console.error("Failed to delete thread", e);
+      fetchThreads(); 
+    }
   };
 
   const updateThread = async (id: number, title: string) => {
     if (!user) return;
-    await api.chat.updateThread(id, title, user);
-    fetchThreads();
+    // Optimistic update
+    setThreads((prev) => prev.map(t => t.id === id ? { ...t, title } : t));
+    try {
+      await api.chat.updateThread(id, title, user);
+    } catch (e) {
+      console.error("Failed to update thread", e);
+      fetchThreads();
+    }
   };
 
   const value = useMemo(() => ({
-    threads: state.value || [],
-    loading: state.loading || state.value === undefined,
+    threads,
+    loading,
     refetch: fetchThreads,
     deleteThread,
     updateThread,
-  }), [state.value, state.loading, fetchThreads, deleteThread, updateThread]);
+  }), [threads, loading, fetchThreads]); // removed deleteThread, updateThread from deps as they are stable closures if we ignore internal deps? No, they use user/fetchThreads.
 
   return (
     <ChatContext.Provider value={value}>

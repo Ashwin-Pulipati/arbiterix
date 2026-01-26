@@ -64,8 +64,6 @@ export const metadata: Metadata = {
 
 import { ChatProvider } from "@/components/providers/chat-provider";
 
-// ... existing imports
-
 export default function RootLayout({
   children,
 }: {

@@ -20,7 +20,7 @@ function AgentIcon({ agent }: { readonly agent: ChatMessage["agent"] }) {
   return <Bot className="h-3 w-3" aria-hidden="true" />;
 }
 
-export function MessageList({ messages, loading, endRef }: MessageListProps) {
+export const MessageList = React.memo(function MessageList({ messages, loading, endRef }: MessageListProps) {
   return (
     <div
       className="space-y-5"
@@ -119,4 +119,4 @@ export function MessageList({ messages, loading, endRef }: MessageListProps) {
       <div ref={endRef} />
     </div>
   );
-}
+});

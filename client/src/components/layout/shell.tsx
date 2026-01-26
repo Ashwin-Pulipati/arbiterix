@@ -11,11 +11,15 @@ import Footer from "../footer";
 import { AppSidebar } from "../app-sidebar";
 import Header from "../header";
 
+import { Suspense } from "react";
+
 export function Shell({ children }: { readonly children: React.ReactNode }) {
   const pathname = usePathname();
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <Suspense fallback={<div className="w-[250px] bg-sidebar" />}>
+        <AppSidebar />
+      </Suspense>
       <SidebarInset>
         <Header/>
         <div

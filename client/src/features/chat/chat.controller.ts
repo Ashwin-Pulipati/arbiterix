@@ -31,7 +31,16 @@ type ChatControllerState = {
   canSend: boolean;
 };
 
-// ...
+type ChatControllerActions = {
+  onSetInput: (v: string) => void;
+  onSetAgent: (a: ChatAgent) => void;
+  onSend: () => Promise<void>;
+  onResetThread: () => void;
+};
+
+type ChatControllerRefs = {
+  endRef: React.RefObject<HTMLDivElement | null>;
+};
 
 export function useChatController({ user, onThreadCreated }: UseChatControllerArgs) {
   useTitle("Arbiter • Chat");

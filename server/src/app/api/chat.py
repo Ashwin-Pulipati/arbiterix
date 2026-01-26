@@ -143,6 +143,8 @@ def delete_thread(
         return {"message": "success"}
     except PermissionError:
         raise HttpError(403, "Forbidden")
+    except ObjectDoesNotExist:
+        raise HttpError(404, "Thread not found")
     except Exception as e:
         raise HttpError(500, str(e))
 
@@ -162,6 +164,8 @@ def update_thread(
         return {"message": "success"}
     except PermissionError:
         raise HttpError(403, "Forbidden")
+    except ObjectDoesNotExist:
+        raise HttpError(404, "Thread not found")
     except Exception as e:
         raise HttpError(500, str(e))
 
