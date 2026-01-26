@@ -32,8 +32,8 @@ export function Composer({
   });
 
   return (
-    <div className="border-t bg-background/70 backdrop-blur supports-backdrop-filter:bg-background/50">
-      <div className="p-4 space-y-3">
+    <div className="sticky bottom-0 z-10 border-t bg-background/70 backdrop-blur supports-backdrop-filter:bg-background/50 py-0">
+      <div className="p-4 space-y-3 ">
         {!online && (
           <div className="surface-hero px-4 py-3 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -57,7 +57,7 @@ export function Composer({
             e.preventDefault();
             onSend();
           }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 "
         >
           <div className="relative flex-1">
             <Input

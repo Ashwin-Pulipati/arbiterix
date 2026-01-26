@@ -1,8 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useMemo } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useSyncExternalStore, useCallback } from "react";
 import { User } from "@/types";
-import { useAsyncFn, useLocalStorage } from "react-use";
+import { useAsyncFn } from "react-use";
 import { api } from "@/lib/api";
 
 const defaultUser: User = { id: 1, username: "demo", role: "user", tenant: "default" };
@@ -16,11 +16,50 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+const userStorageEvent = new EventTarget();
+
+const subscribe = (callback: () => void) => {
+  const handler = () => callback();
+  window.addEventListener("storage", handler);
+  userStorageEvent.addEventListener("change", handler);
+  return () => {
+    window.removeEventListener("storage", handler);
+    userStorageEvent.removeEventListener("change", handler);
+  };
+};
+
+const getSnapshot = () => {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("arbiter_user");
+};
+
+const getServerSnapshot = () => null;
+
 export function UserProvider({ children }: { readonly children: React.ReactNode }) {
-  const [user, setUser] = useLocalStorage<User>("arbiter_user", defaultUser);
+  const storedString = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+  const user = useMemo(() => {
+    if (storedString) {
+      try {
+        return JSON.parse(storedString) as User;
+      } catch (e) {
+        console.error("Failed to parse user from local storage", e);
+      }
+    }
+    return defaultUser;
+  }, [storedString]);
+
+  const setUser = useCallback((newUser: User) => {
+    try {
+      localStorage.setItem("arbiter_user", JSON.stringify(newUser));
+      userStorageEvent.dispatchEvent(new Event("change"));
+    } catch (e) {
+      console.error("Failed to save user to local storage", e);
+    }
+  }, []);
   
   const [usersState, fetchUsers] = useAsyncFn(async () => {
-    const currentUser = user || defaultUser;
+    const currentUser = user;
     try {
       const users = await api.users.list(currentUser);
       // Ensure the current user is in the list, if not add it.
@@ -29,31 +68,35 @@ export function UserProvider({ children }: { readonly children: React.ReactNode 
       }
       return users;
     } catch (e) {
-      // if the call fails, just return the current user
       return [currentUser];
     }
   }, [user]);
-
+  
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
 
-  const availableUsers = usersState.value || [];
+  const availableUsers = useMemo(() => usersState.value || [], [usersState.value]);
 
   useEffect(() => {
-    if (availableUsers && availableUsers.length > 0 && user) {
+    if (availableUsers.length > 0 && user) {
       if (!availableUsers.find(u => u.id === user.id)) {
         setUser(availableUsers[0]);
       }
     }
   }, [availableUsers, user, setUser]);
   
+  const displayUsers = useMemo(() => {
+    if (usersState.loading) return [user];
+    return availableUsers.length > 0 ? availableUsers : [user];
+  }, [user, availableUsers, usersState.loading]);
+
   const value = useMemo(() => ({
-    user: user || defaultUser,
+    user,
     setUser,
-    availableUsers: usersState.loading ? [user || defaultUser] : availableUsers || [user || defaultUser],
+    availableUsers: displayUsers,
     refetchUsers: fetchUsers,
-  }), [user, setUser, availableUsers, usersState.loading, fetchUsers]);
+  }), [user, setUser, displayUsers, fetchUsers]);
 
   return (
     <UserContext.Provider value={value}>

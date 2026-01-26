@@ -88,11 +88,10 @@ export function UserSelector() {
             <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary/20 text-primary">
               <UserIcon className="size-4" />
             </div>
-            <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-              <span className="truncate font-semibold">{user.username}</span>
-              <span className="truncate text-xs text-muted-foreground capitalize">{user.role}</span>
-            </div>
-            <ChevronsUpDown className="ml-auto size-4" />
+                      <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+                        <span className="truncate font-semibold" suppressHydrationWarning>{user.username}</span>
+                        <span className="truncate text-xs text-muted-foreground capitalize">{user.role}</span>
+                      </div>            <ChevronsUpDown className="ml-auto size-4" />
           </SidebarMenuButton>
         </PopoverTrigger>
         <PopoverContent className="w-[--radix-popover-trigger-width] min-w-56 rounded-lg p-0" align="start" side="bottom" sideOffset={4}>
@@ -145,7 +144,7 @@ export function UserSelector() {
           <DialogHeader>
             <DialogTitle>Create New User</DialogTitle>
             <DialogDescription>
-              Add a new user to the system. Password will be defaulted to "password".
+              Add a new user to the system. Password will be defaulted to &quot;password&quot;.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleCreateUser}>

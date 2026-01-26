@@ -25,7 +25,7 @@ function ChatPageContent() {
   });
 
   return (
-    <div className="flex flex-col h-full gap-4">
+    <div className="flex flex-col flex-1 min-h-0 gap-4">
       <div className="flex items-start md:items-center justify-between gap-4">
         <div className="space-y-1 min-w-0">
           <h2 className="text-4xl font-bold font-display text-gradient">
@@ -44,10 +44,10 @@ function ChatPageContent() {
         </div>
       </div>
 
-      <Card className="surface flex-1 flex flex-col overflow-hidden">
+      <Card className="surface flex-1 flex flex-col overflow-y-auto">
         <ScrollArea className="flex-1 p-4">
           {ctrl.state.messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-[420px] text-muted-foreground opacity-90">
+            <div className="flex flex-col items-center justify-center py-14 text-muted-foreground opacity-90">
               <div className="surface-hero w-full max-w-lg p-8 flex flex-col items-center text-center">
                 <Bot
                   className="h-14 w-14 mb-4 text-primary"
