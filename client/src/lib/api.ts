@@ -88,9 +88,29 @@ export const api = {
     list: (user: ApiUserHeaders, signal?: AbortSignal) =>
       fetchAPI<User[]>("/users/", { user, signal }),
     create: (data: UserCreate, user: ApiUserHeaders, signal?: AbortSignal) =>
-      fetchAPI<void>("/users/", {
+      fetchAPI<User>("/users/", {
         method: "POST",
         body: JSON.stringify(data),
+        user,
+        signal,
+      }),
+    delete: (id: number, user: ApiUserHeaders, signal?: AbortSignal) =>
+      fetchAPI<void>(`/users/${id}`, {
+        method: "DELETE",
+        user,
+        signal,
+      }),
+    updateRole: (id: number, role: "admin" | "user", user: ApiUserHeaders, signal?: AbortSignal) =>
+      fetchAPI<void>(`/users/${id}/role`, {
+        method: "PUT",
+        body: JSON.stringify({ role }),
+        user,
+        signal,
+      }),
+    resetPassword: (id: number, password: string, user: ApiUserHeaders, signal?: AbortSignal) =>
+      fetchAPI<void>(`/users/${id}/reset-password`, {
+        method: "POST",
+        body: JSON.stringify({ password }),
         user,
         signal,
       }),
@@ -165,6 +185,13 @@ export const api = {
     deleteThread: (id: number, user: ApiUserHeaders, signal?: AbortSignal) =>
       fetchAPI<{ message: string }>(`/chat/threads/${id}`, {
         method: "DELETE",
+        user,
+        signal,
+      }),
+    updateThread: (id: number, title: string, user: ApiUserHeaders, signal?: AbortSignal) =>
+      fetchAPI<{ message: string }>(`/chat/threads/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({ title }),
         user,
         signal,
       }),

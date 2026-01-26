@@ -24,18 +24,57 @@ export function useUsersController(user: ApiUserHeaders) {
     [user, closeDialog]
   );
 
+  const [deleteState, deleteUser] = useAsyncFn(
+    async (id: number) => {
+      await api.users.delete(id, user);
+    },
+    [user]
+  );
+
+  const [updateRoleState, updateRole] = useAsyncFn(
+    async (id: number, role: "admin" | "user") => {
+      await api.users.updateRole(id, role, user);
+    },
+    [user]
+  );
+
+  const [resetPasswordState, resetPassword] = useAsyncFn(
+    async (id: number, password: string) => {
+      await api.users.resetPassword(id, password, user);
+    },
+    [user]
+  );
+
   return useMemo(
     () => ({
       state,
       ops: {
         creating: createState.loading,
+        deleting: deleteState.loading,
+        updatingRole: updateRoleState.loading,
+        resettingPassword: resetPasswordState.loading,
       },
       actions: {
         openDialog,
         closeDialog,
         createUser,
+        deleteUser,
+        updateRole,
+        resetPassword,
       },
     }),
-    [state, createState.loading, openDialog, closeDialog, createUser]
+    [
+      state,
+      createState.loading,
+      deleteState.loading,
+      updateRoleState.loading,
+      resetPasswordState.loading,
+      openDialog,
+      closeDialog,
+      createUser,
+      deleteUser,
+      updateRole,
+      resetPassword,
+    ]
   );
 }

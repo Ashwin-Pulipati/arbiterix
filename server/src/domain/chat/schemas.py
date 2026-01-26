@@ -13,3 +13,6 @@ class ChatMessageOut(BaseModel):
     role: str
     content: str
     created_at: datetime
+
+class ChatThreadUpdate(BaseModel):
+    title: str

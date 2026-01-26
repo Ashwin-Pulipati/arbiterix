@@ -5,6 +5,7 @@ import { Bot } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useUser } from "@/components/providers/user-provider";
+import { useChatHistory } from "@/components/providers/chat-provider";
 import {
   useTitle
 } from "react-use";
@@ -16,7 +17,11 @@ import { useChatController } from "./chat.controller";
 export default function ChatPage() {
   useTitle("Arbiter • Chat");
   const { user } = useUser();
-  const ctrl = useChatController({ user });
+  const { refetch } = useChatHistory();
+  const ctrl = useChatController({ 
+    user,
+    onThreadCreated: refetch,
+  });
 
   return (
     <>
