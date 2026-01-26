@@ -63,6 +63,8 @@ function ChatPageContent() {
               messages={ctrl.state.messages}
               loading={ctrl.state.loading}
               endRef={ctrl.refs.endRef}
+              user={user}
+              onUpdateMessage={ctrl.actions.onUpdateMessage}
             />
           )}
         </ScrollArea>
