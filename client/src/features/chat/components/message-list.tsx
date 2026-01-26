@@ -26,6 +26,36 @@ function AgentIcon({ agent }: { readonly agent: ChatMessage["agent"] }) {
   return <Bot className="h-3 w-3" aria-hidden="true" />;
 }
 
+const EditMessageForm = React.memo(function EditMessageForm({
+  initialContent,
+  onSave,
+  onCancel,
+}: {
+  readonly initialContent: string;
+  readonly onSave: (content: string) => void;
+  readonly onCancel: () => void;
+}) {
+  const [content, setContent] = React.useState(initialContent);
+
+  return (
+    <div className="flex flex-col gap-2 w-full min-w-[200px]">
+      <Textarea
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        className="bg-background/80"
+      />
+      <div className="flex gap-2 justify-end">
+        <Button size="sm" variant="ghost" onClick={onCancel}>
+          <X className="h-4 w-4 mr-1" /> Cancel
+        </Button>
+        <Button size="sm" onClick={() => onSave(content)}>
+          <Check className="h-4 w-4 mr-1" /> Save
+        </Button>
+      </div>
+    </div>
+  );
+});
+
 const MessageItem = React.memo(function MessageItem({ 
   msg, 
   user, 
@@ -37,22 +67,29 @@ const MessageItem = React.memo(function MessageItem({
 }) {
   const isUser = msg.role === "user";
   const [isEditing, setIsEditing] = React.useState(false);
-  const [editContent, setEditContent] = React.useState(msg.content);
   const [isCopied, setIsCopied] = React.useState(false);
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(msg.content);
-    setIsCopied(true);
-    toast.success("Copied to clipboard");
-    setTimeout(() => setIsCopied(false), 2000);
-  };
+  const handleCopy = React.useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(msg.content);
+      setIsCopied(true);
+      toast.success("Copied to clipboard");
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch {
+      toast.error("Failed to copy");
+    }
+  }, [msg.content]);
 
-  const handleSave = async () => {
-    if (editContent.trim() !== msg.content) {
-      await onUpdate(msg.id, editContent);
+  const handleSave = React.useCallback(async (newContent: string) => {
+    if (newContent.trim() !== msg.content) {
+      await onUpdate(msg.id, newContent);
     }
     setIsEditing(false);
-  };
+  }, [msg.content, msg.id, onUpdate]);
+
+  const handleCancel = React.useCallback(() => {
+    setIsEditing(false);
+  }, []);
 
   return (
     <div
@@ -90,21 +127,11 @@ const MessageItem = React.memo(function MessageItem({
         )}
       >
         {isEditing ? (
-          <div className="flex flex-col gap-2 w-full min-w-[200px]">
-            <Textarea 
-              value={editContent} 
-              onChange={(e) => setEditContent(e.target.value)}
-              className="bg-background/80"
-            />
-            <div className="flex gap-2 justify-end">
-              <Button size="sm" variant="ghost" onClick={() => setIsEditing(false)}>
-                <X className="h-4 w-4 mr-1" /> Cancel
-              </Button>
-              <Button size="sm" onClick={handleSave}>
-                <Check className="h-4 w-4 mr-1" /> Save
-              </Button>
-            </div>
-          </div>
+          <EditMessageForm 
+            initialContent={msg.content} 
+            onSave={handleSave} 
+            onCancel={handleCancel} 
+          />
         ) : (
           <div
             className={cn(

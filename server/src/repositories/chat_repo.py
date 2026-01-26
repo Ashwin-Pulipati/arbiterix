@@ -32,5 +32,8 @@ class ChatRepository:
         message.save()
         return message
 
+    def delete_messages_after(self, thread_id: int, created_after) -> None:
+        ChatMessage.objects.filter(thread_id=thread_id, created_at__gt=created_after).delete()
+
     def delete_thread(self, owner_id: int, thread_id: int) -> None:
         ChatThread.objects.filter(id=thread_id, owner_id=owner_id).delete()

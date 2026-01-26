@@ -169,7 +169,7 @@ def update_thread(
     except Exception as e:
         raise HttpError(500, str(e))
 
-@router.put("/messages/{message_id}")
+@router.put("/messages/{message_id}", response=ChatResponse)
 def update_message(
     request,
     message_id: int,
@@ -181,8 +181,20 @@ def update_message(
 ):
     try:
         identity, owner_id = _identity_from_headers(x_user_id, x_tenant, x_user_role, x_user_name)
-        _svc.update_message(identity=identity, owner_id=owner_id, message_id=message_id, content=payload.content)
-        return {"message": "success"}
+        msg_out = _svc.update_message(identity=identity, owner_id=owner_id, message_id=message_id, content=payload.content)
+        
+        thread = _repo.get_thread(owner_id=owner_id, thread_id=msg_out.thread_id)
+        
+        # Delete subsequent messages to "rewind" conversation from this point
+        _repo.delete_messages_after(thread_id=thread.id, created_after=msg_out.created_at)
+        
+        # Regenerate response
+        # We default to supervisor agent as we don't track per-turn agent selection currently
+        response_text = _invoke_agent(supervisor, owner_id, msg_out.content, thread.uuid, identity.tenant_key)
+        
+        _repo.add_message(thread_id=thread.id, role="assistant", content=response_text)
+        
+        return ChatResponse(response=response_text, thread_id=thread.uuid)
     except PermissionError:
         raise HttpError(403, "Forbidden")
     except ObjectDoesNotExist:

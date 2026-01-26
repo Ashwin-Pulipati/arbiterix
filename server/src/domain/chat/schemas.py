@@ -12,6 +12,7 @@ class ChatMessageOut(BaseModel):
     id: int
     role: str
     content: str
+    thread_id: int
     created_at: datetime
 
 class ChatThreadUpdate(BaseModel):

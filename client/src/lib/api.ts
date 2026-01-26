@@ -196,7 +196,7 @@ export const api = {
         signal,
       }),
     updateMessage: (id: number, content: string, user: ApiUserHeaders, signal?: AbortSignal) =>
-      fetchAPI<{ message: string }>(`/chat/messages/${id}`, {
+      fetchAPI<ChatResponse>(`/chat/messages/${id}`, {
         method: "PUT",
         body: JSON.stringify({ content }),
         user,

@@ -180,9 +180,27 @@ export function useChatController({
   }, [pathname, router]);
 
   const onUpdateMessage = React.useCallback(async (id: string, content: string) => {
-    setMessages((prev) => prev.map(m => m.id === id ? { ...m, content } : m));
+    // Optimistic update and truncate subsequent messages
+    setMessages((prev) => {
+      const index = prev.findIndex(m => m.id === id);
+      if (index === -1) return prev;
+      // Update the content of the target message and remove everything after it
+      const updated = [...prev];
+      updated[index] = { ...updated[index], content };
+      return updated.slice(0, index + 1);
+    });
+
     try {
-      await api.chat.updateMessage(Number(id), content, user);
+      const res = await api.chat.updateMessage(Number(id), content, user);
+      
+      const botMsg: ChatMessage = {
+        id: `${Date.now()}-a`,
+        role: "assistant",
+        content: res.response,
+        agent: "Supervisor",
+      };
+      
+      setMessages(prev => [...prev, botMsg]);
     } catch (e) {
       console.error("Failed to update message", e);
     }
