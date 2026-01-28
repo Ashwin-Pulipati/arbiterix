@@ -28,7 +28,7 @@ This project is built with a modern tech stack that ensures scalability, type sa
 - **AI Models:** [OpenAI](https://platform.openai.com/)
 - **Authorization:** [Permit.io](https://www.permit.io/)
 - **UI & Styling:** [Tailwind CSS](https://tailwindcss.com/) & [Shadcn/UI](https://ui.shadcn.com/)
-- **Deployment:** [Vercel](https://vercel.com/)
+- **Deployment:** [Vercel](https://vercel.com/) (Frontend) & [Render](https://render.com/) (Backend)
 
 ## ✅ Key Features
 
