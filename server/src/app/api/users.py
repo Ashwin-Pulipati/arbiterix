@@ -1,5 +1,4 @@
 from ninja import Router
-from ninja.errors import HttpError
 from domain.users.schemas import UserCreate, UserSchema, UserRoleUpdate, UserPasswordReset
 from services.users_service import create_user, get_all_users_with_roles, delete_user, update_user_role, reset_password
 from django.http import HttpRequest
